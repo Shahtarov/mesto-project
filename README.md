@@ -8,7 +8,10 @@
 
 ## Используемые технологии
 
-- HTML5
-- CSS3
-- Flex + Grid
-- Адаптивная верстка
+-  HTML5
+-  CSS3
+-  Grid
+-  Адаптивная верстка
+-  JavaScript
+
+[Ссылка на проект](https://shahtarov.github.io/mesto-project/)
