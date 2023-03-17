@@ -1,0 +1,16 @@
+.popup__information {
+	border: none;
+	font-family: 'Inter', Arial, sans-serif;
+	font-weight: normal;
+	font-size: 14px;
+	line-height: 17px;
+	color: #000000;
+}
+
+/* .popup__information::placeholder {
+	border: none;
+} */
+
+.popup__information:focus {
+	outline: none;
+}
