@@ -13,7 +13,8 @@
 }
 
 .element__like:hover {
-	background-image: url(../../../images/like-grey.svg);
+	/* background-image: url(../../../images/like-grey.svg); */
+	opacity: 0.5;
 }
 
 .element__like:active {
