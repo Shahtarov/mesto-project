@@ -1,15 +1,14 @@
 .popup__information {
-	border: none;
+	padding: 0 0 10px;
 	font-family: 'Inter', Arial, sans-serif;
 	font-weight: normal;
 	font-size: 14px;
 	line-height: 17px;
+	vertical-align: top;
 	color: #000000;
-}
-
-/* .popup__information::placeholder {
 	border: none;
-} */
+	border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+}
 
 .popup__information:focus {
 	outline: none;

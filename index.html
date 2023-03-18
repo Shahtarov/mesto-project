@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="./images/favicon.svg" type="image/x-icon">
 	<link rel="stylesheet" href="./pages/index.css">
 	<title>Mesto</title>
 </head>
@@ -12,75 +13,68 @@
 <body class="page">
 	<header class="header">
 		<img class="header__logo" src="./images/logo.svg" alt="Логотип">
-		<hr class="header__line">
 	</header>
 	<main class="content">
 
 		<section class="profile">
 			<img class="profile__avatar" alt="Фото профиля" src="./images/avatar.png">
-			<div class="profile-info">
-				<h1 class="profile-info__name">Жак-Ив Кусто</h1>
-				<button type="button" class="profile-info__button-edit"></button>
-				<p class="profile-info__information">Исследователь океана</p>
+			<div class="profile__info-block">
+				<h1 class="profile__name">Жак-Ив Кусто</h1>
+				<button type="button" class="profile__button-edit" aria-label="Отредактировать профиль"></button>
+				<p class="profile__information">Исследователь океана</p>
 			</div>
-			<button type="button" class="profile__button"></button>
+			<button type="button" class="profile__button" aria-label="Добавить фотографию"></button>
 		</section>
 
 		<section class="elements" aria-label="Галерея">
 
-			<figure class="element">
+			<article class="element">
 				<img class="element__image" src="./images/element1.png" alt="Фото Карачаевска">
-				<figcaption class="element__caption">
-					Карачаевск
-					<input type="checkbox" id="like-element1" name="like-element1" class="element__like">
-					<label for="like-element1"></label>
-				</figcaption>
-			</figure>
+				<div class="element__caption">
+					<h2 class="element__header">Карачаевск</h2>
+					<button type="button" class="element__like"></button>
+				</div>
+			</article>
 
-			<figure class=" element">
+			<article class="element">
 				<img class="element__image" src="./images/element2.png" alt="Фото Эльбруса">
-				<figcaption class="element__caption">
-					Гора Эльбрус
-					<input type="checkbox" id="like-element2" name="like-element2" class="element__like">
-					<label for="like-element2"></label>
-				</figcaption>
-			</figure>
+				<div class="element__caption">
+					<h2 class="element__header">Гора Эльбрус</h2>
+					<button type="button" class="element__like"></button>
+				</div>
+			</article>
 
-			<figure class="element">
+			<article class="element">
 				<img class="element__image" src="./images/element3.png" alt="Домбай">
-				<figcaption class="element__caption">
-					Домбай
-					<input type="checkbox" id="like-element3" name="like-element3" class="element__like">
-					<label for="like-element3"></label>
-				</figcaption>
-			</figure>
+				<div class="element__caption">
+					<h2 class="element__header">Домбай</h2>
+					<button type="button" class="element__like"></button>
+				</div>
+			</article>
 
-			<figure class="element">
+			<article class="element">
 				<img class="element__image" src="./images/element4.png" alt="Фото Байкала">
-				<figcaption class="element__caption">
-					Байкал
-					<input type="checkbox" id="like-element4" name="like-element4" class="element__like">
-					<label for="like-element4"></label>
-				</figcaption>
-			</figure>
+				<div class="element__caption">
+					<h2 class="element__header">Байкал</h2>
+					<button type="button" class="element__like"></button>
+				</div>
+			</article>
 
-			<figure class="element">
+			<article class="element">
 				<img class="element__image" src=" ./images/element5.png" alt="Фото Алтая">
-				<figcaption class="element__caption">
-					Алтай
-					<input type="checkbox" id="like-element5" name="like-element5" class="element__like">
-					<label for="like-element5"></label>
-				</figcaption>
-			</figure>
+				<div class="element__caption">
+					<h2 class="element__header">Алтай</h2>
+					<button type="button" class="element__like"></button>
+				</div>
+			</article>
 
-			<figure class="element">
+			<article class="element">
 				<img class="element__image" src="./images/element6.png" alt="Фото Карачаево-Черкесии">
-				<figcaption class="element__caption">
-					Карачаево-Ч...
-					<input type="checkbox" id="like-element6" name="like-element6" class="element__like">
-					<label for="like-element6"></label>
-				</figcaption>
-			</figure>
+				<div class="element__caption">
+					<h2 class="element__header">Карачаево-Черкесия</h2>
+					<button type="button" class="element__like"></button>
+				</div>
+			</article>
 
 		</section>
 
@@ -90,21 +84,24 @@
 	</footer>
 
 	<section class="popup" aria-label="popup">
-		<form class="popup__container">
-			<button type="button" class="popup__close-icon"></button>
-			<fieldset class="popup__inputs">
-				<legend class="popup__heading">Редактировать профиль</legend>
-				<input type="text" class="popup__information" name="popup__name" tabindex="1" placeholder="Жак-Ив Кусто">
-				<hr class="popup__line">
-				<input type="text" class="popup__information popup__information_position_second" name="popup__job"
-						 tabindex="2" placeholder="Исследователь океана">
-				<hr class="popup__line">
+
+		<div class="popup__container">
+			<button type="button" class="popup__close-icon" aria-label="Закрыть popup"></button>
+			<h3 class="popup__heading">Редактировать профиль</h3>
+
+			<form class="popup__form" name="profile-edit">
+				<fieldset class="popup__inputs">
+					<input type="text" class="popup__information" name="popup__name" tabindex="1" placeholder="Жак-Ив Кусто">
+					<input type="text" class="popup__information" name="popup__job" tabindex="2"
+							 placeholder="Исследователь океана">
+				</fieldset>
 				<input type="submit" class="popup__submit" tabindex="3" value="Сохранить">
-			</fieldset>
-		</form>
+			</form>
+
+		</div>
 	</section>
 
-	<script src="./scripts/popup/popup.js"></script>
+	<script src="./index.js"></script>
 
 </body>
 

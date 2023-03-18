@@ -18,14 +18,14 @@
 	}
 }
 
-@media screen and (max-width: 598px) {
-	.elements {
-		grid-template-columns: 282px;
-	}
-}
-
 @media screen and (max-width: 767px) {
 	.elements {
 		margin: 36px auto 0;
+	}
+}
+
+@media screen and (max-width: 598px) {
+	.elements {
+		grid-template-columns: 282px;
 	}
 }

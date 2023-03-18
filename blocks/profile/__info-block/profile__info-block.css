@@ -1,13 +1,12 @@
-.profile-info {
+.profile__info-block {
 	min-width: 336px;
-	min-height: 73px;
 	padding-left: 30px;
 	display: flex;
 	flex-wrap: wrap;
 }
 
 @media screen and (max-width: 767px) {
-	.profile-info {
+	.profile__info-block {
 		margin-top: 26px;
 		min-width: 220px;
 		justify-content: center;

@@ -1,44 +1,21 @@
 .element__like {
-	position: absolute;
-	z-index: -1;
-	opacity: 0;
-
-}
-
-.element__like+label {
-	content: '';
-	margin-right: 30px;
+	margin: 0;
+	padding: 0;
 	height: 19px;
 	width: 22px;
 	align-self: center;
-	display: inline-flex;
 	background-image: url(../../../images/like.svg);
-	user-select: none;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center;
 	cursor: pointer;
+	border: none;
 }
 
-.element__like+label::before {
-	content: '';
-	display: inline-block;
-	height: 19px;
-	width: 22px;
+.element__like:hover {
+	background-image: url(../../../images/like-grey.svg);
 }
 
-.element__like:hover+label {
-	cursor: pointer;
-	opacity: 0.5;
-}
-
-.element__like:hover+label::before {
-	cursor: pointer;
-	display: inline-block;
-	background-image: url(../../../images/like.svg);
-}
-
-.element__like:checked+label::before {
+.element__like:active {
 	background-image: url(../../../images/like-black.svg);
-}
-
-.element__like:checked+label::before:hover {
-	background-image: url(../../../images/like.svg);
 }
