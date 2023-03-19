@@ -1,5 +1,5 @@
 .profile__info-block {
-	min-width: 336px;
+	max-width: 336px;
 	padding-left: 30px;
 	display: flex;
 	flex-wrap: wrap;
@@ -8,7 +8,7 @@
 @media screen and (max-width: 767px) {
 	.profile__info-block {
 		margin-top: 26px;
-		min-width: 220px;
+		max-width: 282px;
 		justify-content: center;
 		padding: 0;
 	}

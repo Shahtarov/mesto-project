@@ -1,7 +1,7 @@
 .profile__information {
 	margin: 0;
 	padding-top: 16px;
-	max-width: 570px;
+	max-width: 336px;
 	min-width: 100%;
 	font-family: 'Inter', Arial, sans-serif;
 	font-weight: normal;
@@ -16,18 +16,10 @@
 @media screen and (max-width: 767px) {
 	.profile__information {
 		padding-top: 8px;
-		max-width: 70vw;
-		min-width: 70vw;
+		max-width: 282px;
 		text-align: center;
 		font-size: 14px;
 		line-height: 17px;
 		text-align: center;
-	}
-}
-
-@media screen and (max-width: 481px) {
-	.profile__information {
-		max-width: 282px;
-		min-width: 282px;
 	}
 }
