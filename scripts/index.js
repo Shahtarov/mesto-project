@@ -76,7 +76,7 @@ const elements = document.querySelector('.elements');
 const element = document.querySelector('.element');
 
 
-// открытие и закрытие popup добавление карточки
+// Открытие и закрытие popup добавления карточки
 buttonAddCard.addEventListener('click', () => {
 	openPopup(popupGallery);
 });
@@ -86,9 +86,27 @@ buttonClosePopupGallery.addEventListener('click', () => {
 });
 
 
+// Функция добавление лайка
+function addLike(like) {
+	like.addEventListener('click', (e) => {
+		like.classList.toggle('element__like_active');
+	});
+}
+
+// Функция удаление карочки
+function delButton(button, element) {
+	button.addEventListener('click', (e) => {
+		element.remove();
+	});
+}
 
 
-
+// Функция увеличения изображения
+function increaseImage(popupImage, imageZoom, imageTitle, elementLink, elementName) {
+	popupImage.classList.toggle('popup_opened');
+	imageZoom.src = elementLink;
+	imageTitle.textContent = elementName;
+}
 
 // Добавление карточек
 function addElements(elementName, elementLink) {
@@ -103,37 +121,28 @@ function addElements(elementName, elementLink) {
 
 	// Добавление лайка
 	const like = element.querySelector('.element__like');
-	like.addEventListener('click', (e) => {
-		like.classList.toggle('element__like_active');
-	});
+	addLike(like);
 
 	// Удаление карочки
 	const deleteButton = element.querySelector('.element__delete');
-	deleteButton.addEventListener('click', (e) => {
-		element.remove();
-	});
+	delButton(deleteButton, element);
 
-	// Увеличение изобраения
+	// Увеличение изображения
+	const popupImage = document.querySelector('.popup_type_image');
+	const imageZoom = document.querySelector('.popup__image');
+	const imageTitle = document.querySelector('.popup__image-title');
+
 	element__image.addEventListener('click', (e) => {
-		const popupImage = document.querySelector('.popup_type_image');
-		popupImage.classList.toggle('popup_opened');
-
-		const imageZoom = document.querySelector('.popup__image');
-		imageZoom.src = elementLink;
-
-		const imageTitle = document.querySelector('.popup__image-title');
-		imageTitle.textContent = elementName;
-
-		//закрытие popup увеличения изображения
-		const buttonClosePopupImage = document.querySelector('button[name="popup__image-close"]');
-		buttonClosePopupImage.addEventListener('click', () => {
-			closePopup(popupImage);
-		});
+		increaseImage(popupImage, imageZoom, imageTitle, elementLink, elementName);
 	});
 
+	//закрытие popup увеличения изображения
+	const buttonClosePopupImage = document.querySelector('button[name="popup__image-close"]');
+	buttonClosePopupImage.addEventListener('click', () => {
+		closePopup(popupImage);
+	});
 
-
-
+	// Добавление карточек на страницу
 	elements.prepend(element);
 }
 
