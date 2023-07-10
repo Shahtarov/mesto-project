@@ -23,6 +23,7 @@ const buttonAddCard = document.querySelector('.profile__button');
 const elementTemplate = document.querySelector('#element').content;
 const elements = document.querySelector('.elements');
 const element = document.querySelector('.element');
+const closeButtons = document.querySelectorAll('.popup__close-icon');
 
 // Массив карточек
 const initialCards = [{
@@ -72,7 +73,6 @@ buttonAddCard.addEventListener('click', () => {
 });
 
 // Закрытие popup-ов
-const closeButtons = document.querySelectorAll('.popup__close-icon');
 closeButtons.forEach((button) => {
 	const popup = button.closest('.popup');
 	button.addEventListener('click', () => closePopup(popup));
