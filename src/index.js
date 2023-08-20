@@ -14,8 +14,7 @@ import {
 } from "./components/modal.js";
 
 import {
-	elements,
-	createCard
+	addСardToPage
 } from "./components/card.js";
 
 
@@ -41,17 +40,8 @@ const profileInformation = document.querySelector('.profile__information');
 
 
 
-// Функция удаление карочки
-export function handleDelButton(button, element) {
-	button.addEventListener('click', (e) => {
-		element.remove();
-	});
-}
 
-function addСardToPage(elementName, elementLink) {
-	const card = createCard(elementName, elementLink);
-	elements.prepend(card);
-}
+
 
 
 

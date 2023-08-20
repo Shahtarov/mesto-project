@@ -6,7 +6,7 @@ import {
 
 import {
 	// addLike,
-	handleDelButton
+	// handleDelButton
 } from "./../index.js";
 
 // Увеличение изображения
@@ -16,7 +16,7 @@ const imageTitle = document.querySelector('.popup__image-title');
 
 const elementTemplate = document.querySelector('#element').content;
 
-export const elements = document.querySelector('.elements');
+const elements = document.querySelector('.elements');
 
 // Добавление карточки на страницу
 // export function addСardToPage(elementName, elementLink) {
@@ -31,8 +31,15 @@ function addLike(like) {
 	});
 }
 
+// Функция удаление карочки
+function handleDelButton(button, element) {
+	button.addEventListener('click', () => {
+		element.remove();
+	});
+}
+
 // Создание карточки
-export function createCard(elementName, elementLink) {
+function createCard(elementName, elementLink) {
 	const cardElement = elementTemplate.querySelector('.element').cloneNode(true);
 	const elementImage = cardElement.querySelector('.element__image');
 	elementImage.src = elementLink;
@@ -55,4 +62,10 @@ export function createCard(elementName, elementLink) {
 	});
 
 	return cardElement;
+}
+
+// Добавление карточек на страницу
+export function addСardToPage(elementName, elementLink) {
+	const card = createCard(elementName, elementLink);
+	elements.prepend(card);
 }
