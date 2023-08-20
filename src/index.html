@@ -5,18 +5,18 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="icon" href="./images/favicon.svg" type="image/x-icon">
+	<link rel="icon" href="<%=require('./images/favicon.svg')%>" type="image/x-icon">
 	<title>Mesto</title>
 </head>
 
 <body class="page">
 	<header class="header">
-		<img class="header__logo" src="./images/logo.svg" alt="Логотип">
+		<img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Логотип">
 	</header>
 	<main class="content">
 
 		<section class="profile">
-			<img class="profile__avatar" alt="Фото профиля" src="./images/avatar.png">
+			<img class="profile__avatar" alt="Фото профиля" src="<%=require('./images/avatar.png')%>">
 			<div class="profile__info-block">
 				<h1 class="profile__name">Жак-Ив Кусто</h1>
 				<button type="button" class="profile__button-edit" aria-label="Отредактировать профиль"></button>
@@ -95,7 +95,7 @@
 					</label>
 					<label class="popup__label">
 						<input type="text" class="popup__information" name="popup__url" tabindex="2"
-								 placeholder="Ссылка на картинку" pattern="https:\/\/[\w\-\/\.]+\.(png|jpeg|webp|jpg)"
+								 placeholder="Ссылка на картинку" pattern="https:\/\/[\w\-\/\.\%\?]+\.(png|jpeg|webp|jpg)"
 								 data-message="Необходимо добавить ссылку" required>
 						<span class="popup__input-error"></span>
 					</label>
