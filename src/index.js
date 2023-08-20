@@ -38,12 +38,7 @@ const profileName = document.querySelector('.profile__name');
 const profileInformation = document.querySelector('.profile__information');
 
 
-// Функция добавление лайка
-export function addLike(like) {
-	like.addEventListener('click', (e) => {
-		like.classList.toggle('element__like_active');
-	});
-}
+
 
 
 // Функция удаление карочки

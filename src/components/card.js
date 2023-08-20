@@ -5,7 +5,7 @@ import {
 } from "./modal.js";
 
 import {
-	addLike,
+	// addLike,
 	handleDelButton
 } from "./../index.js";
 
@@ -23,6 +23,13 @@ export const elements = document.querySelector('.elements');
 // 	const card = createCard(elementName, elementLink);
 // 	elements.prepend(card);
 // }
+
+// Добавление лайка
+function addLike(like) {
+	like.addEventListener('click', (e) => {
+		like.classList.toggle('element__like_active');
+	});
+}
 
 // Создание карточки
 export function createCard(elementName, elementLink) {
