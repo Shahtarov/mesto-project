@@ -4,7 +4,6 @@ import {
 } from "./components/validate.js";
 
 import {
-	closePopup,
 	openPopupProfile,
 	openPopupAddCard,
 	popupGallery
@@ -19,33 +18,16 @@ import {
 }
 from "./components/utils.js";
 
-
-
-// Редактирование профиля
-const formProfile = document.querySelector('form[name="profile-edit"]');
-const nameInput = formProfile.querySelector('input[name="popup__name"]');
-const jobInput = formProfile.querySelector('input[name="popup__job"]');
-
-
-// popup редактирование профиля
-const popupProfile = document.querySelector('.popup-profile-edit');
-const profileName = document.querySelector('.profile__name');
-const profileInformation = document.querySelector('.profile__information');
-
-
-// Отредактировать профиль
-function handleProfileFormSubmit(e) {
-	e.preventDefault();
-	profileName.textContent = nameInput.value;
-	profileInformation.textContent = jobInput.value;
-	closePopup(popupProfile);
+import {
+	editProfile,
+	popupProfile
 }
-formProfile.addEventListener('submit', handleProfileFormSubmit);
+from "./components/editProfile.js";
 
 
 
-// Включение валидации форм
-enableValidation();
+// Включение редактирования профиля
+editProfile();
 
 // Открытие popup-ов
 openPopupProfile(popupProfile);
@@ -56,3 +38,6 @@ addCardFormSubmit();
 
 // Добавление карточек из массива на страницу
 addinitialCards();
+
+// Включение валидации форм
+enableValidation();
