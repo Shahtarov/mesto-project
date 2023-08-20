@@ -17,6 +17,11 @@ import {
 	addСardToPage
 } from "./components/card.js";
 
+import {
+	addinitialCards
+}
+from "./components/utils.js";
+
 
 
 // Редактирование профиля
@@ -35,15 +40,6 @@ const urlInput = formGallery.querySelector('input[name="popup__url"]');
 const popupProfile = document.querySelector('.popup-profile-edit');
 const profileName = document.querySelector('.profile__name');
 const profileInformation = document.querySelector('.profile__information');
-
-
-
-
-
-
-
-
-
 
 
 // Добавление карточки из формы
@@ -80,7 +76,9 @@ enableValidation();
 openPopupProfile(popupProfile);
 openPopupAddCard(popupGallery);
 
+// Добавление карточек из массива на страницу
+addinitialCards();
 // Добавление карточек из массива
-initialCards.forEach((e) => {
-	addСardToPage(e.name, e.link);
-});
+// initialCards.forEach((e) => {
+// 	addСardToPage(e.name, e.link);
+// });
