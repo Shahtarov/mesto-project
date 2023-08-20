@@ -1,9 +1,11 @@
 //Работа модальных окон
 
 
-// const closeButtons = document.querySelectorAll('.popup__close-icon');
+export const popupGallery = document.querySelector('.popup-gallery-add');
+
 const buttonAddCard = document.querySelector('.profile__button');
 const buttonProfile = document.querySelector('.profile__button-edit');
+
 
 // Все popup окна
 const popups = Array.from(document.querySelectorAll(".popup"));

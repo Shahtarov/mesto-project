@@ -11,6 +11,7 @@ import {
 	closePopup,
 	openPopupProfile,
 	openPopupAddCard,
+	popupGallery
 } from "./components/modal.js";
 
 import {
@@ -25,16 +26,15 @@ from "./components/utils.js";
 
 
 // Редактирование профиля
-
 const formProfile = document.querySelector('form[name="profile-edit"]');
 const nameInput = formProfile.querySelector('input[name="popup__name"]');
 const jobInput = formProfile.querySelector('input[name="popup__job"]');
 
 // Работа с карточками
 const formGallery = document.querySelector('form[name="gallery-add"]');
-const popupGallery = document.querySelector('.popup-gallery-add');
 const titleInput = formGallery.querySelector('input[name="popup__title"]');
 const urlInput = formGallery.querySelector('input[name="popup__url"]');
+
 
 // popup редактирование профиля
 const popupProfile = document.querySelector('.popup-profile-edit');

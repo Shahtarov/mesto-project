@@ -9,6 +9,10 @@ import {
 	// handleDelButton
 } from "./../index.js";
 
+
+
+
+
 // Увеличение изображения
 const popupImage = document.querySelector('.popup_type_image');
 const imageZoom = document.querySelector('.popup__image');
