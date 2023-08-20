@@ -1,17 +1,17 @@
-# Проект: Mesto
+# Project: Mesto
 
-## Информация о проекте
+## Project Information
 
-Этот проект предоставляет возможность загружать и делиться фотографиями
+This project provides the ability to upload and share photos.
 
 ---
 
-## Используемые технологии
+## The technology stack used
 
--  HTML5
--  CSS3
--  Grid
--  Адаптивная верстка
--  JavaScript
+- HTML5
+- CSS3
+- Grid
+- JavaScript
+- Webpack
 
-[Ссылка на проект](https://shahtarov.github.io/mesto-project/)
+ 👉 [Link to the project](https://shahtarov.github.io/mesto-project/)
