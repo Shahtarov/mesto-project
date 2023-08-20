@@ -1,16 +1,19 @@
 //Функции для работы с карточками
 
 import {
-	increaseImage
+	increaseImage,
+	closePopup,
+	popupGallery,
 } from "./modal.js";
 
 import {
-	// addLike,
-	// handleDelButton
-} from "./../index.js";
+	initialCards
+} from "./initialData.js";
 
-
-
+// import {
+// 	// addLike,
+// 	// handleDelButton
+// } from "./../index.js";
 
 
 // Увеличение изображения
@@ -19,14 +22,13 @@ const imageZoom = document.querySelector('.popup__image');
 const imageTitle = document.querySelector('.popup__image-title');
 
 const elementTemplate = document.querySelector('#element').content;
-
 const elements = document.querySelector('.elements');
 
-// Добавление карточки на страницу
-// export function addСardToPage(elementName, elementLink) {
-// 	const card = createCard(elementName, elementLink);
-// 	elements.prepend(card);
-// }
+// Работа с карточками
+const formGallery = document.querySelector('form[name="gallery-add"]');
+const titleInput = formGallery.querySelector('input[name="popup__title"]');
+const urlInput = formGallery.querySelector('input[name="popup__url"]');
+
 
 // Добавление лайка
 function addLike(like) {
@@ -72,4 +74,21 @@ function createCard(elementName, elementLink) {
 export function addСardToPage(elementName, elementLink) {
 	const card = createCard(elementName, elementLink);
 	elements.prepend(card);
+}
+
+// Добавление карточки из формы
+function handleCardFormSubmit(e) {
+	e.preventDefault();
+	initialCards.unshift({
+		name: titleInput.value,
+		link: urlInput.value
+	});
+	addСardToPage(initialCards[0].name, initialCards[0].link);
+	formGallery.reset();
+	closePopup(popupGallery);
+}
+
+// Добавление карточки из формы
+export function addCardFormSubmit() {
+	formGallery.addEventListener('submit', handleCardFormSubmit);
 }
