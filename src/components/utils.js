@@ -9,7 +9,7 @@ import {
 } from "./card.js";
 
 // Добавление карточек из массива на страницу
-export function addinitialCards() {
+export function addInitialCards() {
 	initialCards.forEach((e) => {
 		addСardToPage(e.name, e.link);
 	});

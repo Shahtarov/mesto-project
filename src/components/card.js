@@ -6,15 +6,6 @@ import {
 	popupGallery,
 } from "./modal.js";
 
-import {
-	initialCards
-} from "./initialData.js";
-
-// import {
-// 	// addLike,
-// 	// handleDelButton
-// } from "./../index.js";
-
 
 // Увеличение изображения
 const popupImage = document.querySelector('.popup_type_image');
@@ -25,7 +16,8 @@ const elementTemplate = document.querySelector('#element').content;
 const elements = document.querySelector('.elements');
 
 // Работа с карточками
-const formGallery = document.querySelector('form[name="gallery-add"]');
+
+const formGallery = document.forms["gallery-add"];
 const titleInput = formGallery.querySelector('input[name="popup__title"]');
 const urlInput = formGallery.querySelector('input[name="popup__url"]');
 
@@ -79,11 +71,7 @@ export function addСardToPage(elementName, elementLink) {
 // Добавление карточки из формы
 function handleCardFormSubmit(e) {
 	e.preventDefault();
-	initialCards.unshift({
-		name: titleInput.value,
-		link: urlInput.value
-	});
-	addСardToPage(initialCards[0].name, initialCards[0].link);
+	addСardToPage(titleInput.value, urlInput.value);
 	formGallery.reset();
 	closePopup(popupGallery);
 }

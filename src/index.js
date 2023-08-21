@@ -14,7 +14,7 @@ import {
 } from "./components/card.js";
 
 import {
-	addinitialCards
+	addInitialCards
 }
 from "./components/utils.js";
 
@@ -37,7 +37,13 @@ openPopupAddCard(popupGallery);
 addCardFormSubmit();
 
 // Добавление карточек из массива на страницу
-addinitialCards();
+addInitialCards();
 
 // Включение валидации форм
-enableValidation();
+enableValidation({
+	formSelector: '.popup__form',
+	inputSelector: '.popup__information',
+	submitButtonSelector: '.popup__submit',
+	errorClass: 'popup__input-error',
+	inputErrorClass: 'popup__information_type_error'
+});

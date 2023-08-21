@@ -3,10 +3,9 @@ import {
 } from "./modal.js";
 
 // Редактирование профиля
-const formProfile = document.querySelector('form[name="profile-edit"]');
+const formProfile = document.forms["profile-edit"];
 const nameInput = formProfile.querySelector('input[name="popup__name"]');
 const jobInput = formProfile.querySelector('input[name="popup__job"]');
-
 
 // popup редактирование профиля
 export const popupProfile = document.querySelector('.popup-profile-edit');

@@ -1,58 +1,62 @@
 //Валидация
 
-// Валидация input
-function validationInputs(input) {
+// Отображение ошибки
+function showInputError(input, settings) {
+	input.classList.add(settings.inputErrorClass);
+}
+
+// Удаление ошибки
+function hideInputError(input, settings) {
+	input.classList.remove(settings.inputErrorClass);
+}
+
+// Проверка валидации всех ворм
+const isValid = (inputs) => {
+	return inputs.every(input => {
+		return input.validity.valid;
+	})
+}
+
+// Смена цвета кнопки
+function changeSubmitStatus(inputs, submit) {
+	if (isValid(inputs)) {
+		submit.removeAttribute("disabled", "");
+	} else {
+		submit.setAttribute("disabled", "");
+	}
+}
+
+
+function showErrorText(input, settings) {
 	if (input.validity.patternMismatch) {
-		showInputError(input);
+		showInputError(input, settings);
 		input.nextElementSibling.textContent = input.dataset.message;
 	} else if (!input.validity.valid) {
-		showInputError(input);
+		showInputError(input, settings);
 		input.nextElementSibling.textContent = input.validationMessage;
 	} else {
-		hideInputError(input);
+		hideInputError(input, settings);
 		input.nextElementSibling.textContent = "";
 	}
 }
 
 
-// Установка слушателей на формы
-function searchInputs(form) {
-	const elements = Array.from(form.elements).filter((e) => {
-		return e.className === "popup__information";
-	});
-	elements.forEach((input) => {
-		setEventListener(input, elements);
-	});
-}
-
-
-// Установка слушателей на поля
-function setEventListener(input, elements) {
-	input.addEventListener('input', (e) => {
-		validationInputs(e.target);
-		changeSubmit(elements[0].validity.valid && elements[1].validity.valid, elements[0].form.lastElementChild);
+function setEventListener(form, settings) {
+	const inputs = [...form.querySelectorAll(settings.inputSelector)];
+	const submit = form.querySelector(settings.submitButtonSelector);
+	changeSubmitStatus(inputs, submit);
+	inputs.forEach((input) => {
+		input.addEventListener('input', (e) => {
+			showErrorText(e.target, settings);
+			changeSubmitStatus(inputs, submit);
+		});
 	})
 }
 
-// Отображение ошибки
-function showInputError(input) {
-	input.classList.add('popup__information_type_error');
-}
-
-// Удаление ошибки
-function hideInputError(input) {
-	input.classList.remove('popup__information_type_error');
-}
-
-// Смена цвета кнопки
-function changeSubmit(valid, buttonSubmit) {
-	valid ? buttonSubmit.removeAttribute("disabled", "disabled") : buttonSubmit.setAttribute("disabled", "disabled");
-}
-
 // Включение валидации и перебор форм
-export function enableValidation() {
-	const forms = Array.from(document.forms);
+export function enableValidation(settings) {
+	const forms = [...document.querySelectorAll(settings.formSelector)];
 	forms.forEach((form) => {
-		searchInputs(form);
+		setEventListener(form, settings);
 	});
 }
