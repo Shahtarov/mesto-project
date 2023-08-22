@@ -9,12 +9,13 @@ const buttonProfile = document.querySelector('.profile__button-edit');
 export function openPopup(popup) {
 	popup.classList.add('popup_opened');
 	document.addEventListener('keydown', closePopupEsc);
-	closePopupСrossOverlay(popup);
+	document.addEventListener('mousedown', closePopupСrossOverlay);
 }
 
 export function closePopup(popup) {
 	popup.classList.remove('popup_opened');
 	document.removeEventListener('keydown', closePopupEsc);
+	document.removeEventListener('mousedown', closePopupСrossOverlay);
 }
 
 // Popup с увеличенным изображением
@@ -49,11 +50,9 @@ function closePopupEsc(e) {
 }
 
 // Закрытие popup-ов кликом на оверлей или крестик
-function closePopupСrossOverlay(popup) {
-	popup.addEventListener('mousedown', (e) => {
-		if (e.target.classList.contains('popup_opened') || e.target.classList.contains('popup__close-icon')) {
-			// const openedPopup = document.querySelector('.popup_opened');
-			closePopup(popup);
-		}
-	})
+function closePopupСrossOverlay(e) {
+	const openedPopup = document.querySelector('.popup_opened');
+	if (e.target.classList.contains('popup_opened') || e.target.classList.contains('popup__close-icon')) {
+		closePopup(openedPopup);
+	}
 }

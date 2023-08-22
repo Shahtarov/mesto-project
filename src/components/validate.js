@@ -45,6 +45,9 @@ function setEventListener(form, settings) {
 	const inputs = [...form.querySelectorAll(settings.inputSelector)];
 	const submit = form.querySelector(settings.submitButtonSelector);
 	changeSubmitStatus(inputs, submit);
+	form.addEventListener('reset', () => {
+		submit.setAttribute("disabled", "");
+	});
 	inputs.forEach((input) => {
 		input.addEventListener('input', (e) => {
 			showErrorText(e.target, settings);
