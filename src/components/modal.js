@@ -1,5 +1,12 @@
 //Работа модальных окон
 
+// import {
+// 	nameInput,
+// 	jobInput
+// }
+// 	export const nameInput = formProfile.querySelector('input[name="popup__name"]');
+// 	export const jobInput = formProfile.querySelector('input[name="popup__job"]');
+
 export const popupGallery = document.querySelector('.popup-gallery-add');
 const buttonAddCard = document.querySelector('.profile__button');
 const buttonProfile = document.querySelector('.profile__button-edit');

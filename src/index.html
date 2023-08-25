@@ -16,11 +16,11 @@
 	<main class="content">
 
 		<section class="profile">
-			<img class="profile__avatar" alt="Фото профиля" src="<%=require('./images/avatar.png')%>">
+			<img class="profile__avatar" alt="Фото профиля" src="">
 			<div class="profile__info-block">
-				<h1 class="profile__name">Жак-Ив Кусто</h1>
+				<h1 class="profile__name"></h1>
 				<button type="button" class="profile__button-edit" aria-label="Отредактировать профиль"></button>
-				<p class="profile__information">Исследователь океана</p>
+				<p class="profile__information"></p>
 			</div>
 			<button type="button" class="profile__button" aria-label="Добавить фотографию"></button>
 		</section>
@@ -39,7 +39,10 @@
 			<button type="button" class="element__delete" aria-label="Удалить"></button>
 			<div class="element__caption">
 				<h2 class="element__header"></h2>
-				<button type="button" class="element__like" aria-label="Лайк"></button>
+				<div class="element__like-area">
+					<button type="button" class="element__like" aria-label="Лайк"></button>
+					<span class="element__likes-counter">0</span>
+				</div>
 			</div>
 		</article>
 	</template>
@@ -57,14 +60,14 @@
 				<fieldset class="popup__inputs">
 					<label class="popup__label">
 						<input type="text" class="popup__information" name="popup__name" tabindex="1" placeholder="Имя"
-								 value="Жак-Ив Кусто" minlength="2" maxlength="40" pattern="[A-Za-zА-Яа-яЁё\-\s]+" data-message="Разрешены
+								 minlength="2" maxlength="40" pattern="[A-Za-zА-Яа-яЁё\-\s]+" data-message="Разрешены
 								 только латинские, кириллические буквы, знаки дефиса и пробелы." required>
 						<span class="popup__input-error"></span>
 					</label>
 
 					<label class="popup__label">
 						<input type="text" class="popup__information" name="popup__job" tabindex="2" placeholder="О себе"
-								 value="Исследователь океана" minlength="2" maxlength="200" pattern="[A-Za-zА-Яа-яЁё\-\s]+"
+								 minlength="2" maxlength="200" pattern="[A-Za-zА-Яа-яЁё\-\s]+"
 								 data-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы."
 								 required>
 						<span class="popup__input-error"></span>
