@@ -46,68 +46,6 @@ function handleDelButton(button, element, elementId) {
 	});
 }
 
-function setLikesSum(likesCounter, arrLikes) {
-	likesCounter.textContent = arrLikes.length;
-}
-
-function setLikeIcon(likeElement, arrLikes, owner) {
-	if (arrLikes.find((e) => e['_id'] === owner)) {
-		likeElement.classList.add('element__like_active');
-	} else {
-		likeElement.classList.remove('element__like_active');
-
-	}
-}
-
-
-export function validationLike(likeElement, likesCounter, owner, elementId, arrLikes) {
-	// console.log(`e['_id'] - ${e['_id']}, owner - ${owner}. Итог ${arrLikes.some((e) => e['_id'] === owner)}`);
-
-	// console.log(arrLikes);
-	if (arrLikes.find((e) => e['_id'] === owner)) {
-		delLikeApi(elementId)
-			.then(res => {
-				if (res.ok) {
-					console.log("Нажал дизлайк");
-					return res.json();
-				}
-				return Promise.reject(`Ошибка: ${res.status}`);
-			})
-			.then((data) => {
-				console.log(data.likes);
-				setLikeIcon(likeElement, data.likes, owner)
-				setLikesSum(likesCounter, data.likes);
-			})
-			.catch((err) => {
-				console.log(err);
-			})
-	} else {
-		setLikeApi(elementId)
-			.then(res => {
-				if (res.ok) {
-					console.log("Нажал лайк");
-					return res.json();
-				}
-				return Promise.reject(`Ошибка: ${res.status}`);
-			})
-			.then((data) => {
-				console.log(data.likes);
-				setLikeIcon(likeElement, data.likes, owner)
-				setLikesSum(likesCounter, data.likes);
-			})
-			.catch((err) => {
-				console.log(err);
-			})
-	}
-}
-
-
-// function handlerClickLike(likeElement, likesCounter, owner, elementId, arrLikes) {
-// 	likeElement.addEventListener('click', () => {
-// 		validationLike(likeElement, likesCounter, owner, elementId, arrLikes)
-// 	})
-// }
-
 
 // Создание карточки
 function createCard(elementName, elementLink, elementId, arrLikes, isCardOwner, owner) {
@@ -122,12 +60,45 @@ function createCard(elementName, elementLink, elementId, arrLikes, isCardOwner, 
 	// Добавление лайка
 	const likeElement = cardElement.querySelector('.element__like');
 	const likesCounter = cardElement.querySelector('.element__likes-counter');
-	setLikeIcon(likeElement, arrLikes, owner);
-	setLikesSum(likesCounter, arrLikes);
-	// handlerClickLike(likeElement, likesCounter, owner, elementId, arrLikes);
+	likesCounter.textContent = arrLikes.length;
+
+	if (arrLikes.find((e) => e['_id'] === owner)) {
+		likeElement.classList.add('element__like_active');
+	}
+
 	likeElement.addEventListener('click', () => {
-		validationLike(likeElement, likesCounter, owner, elementId, arrLikes);
-	})
+		if (likeElement.classList.contains('element__like_active')) {
+			delLikeApi(elementId)
+				.then(res => {
+					if (res.ok) {
+						return res.json();
+					}
+					return Promise.reject(`Ошибка: ${res.status}`);
+				})
+				.then((data) => {
+					likeElement.classList.remove('element__like_active');
+					likesCounter.textContent = data.likes.length;
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+		} else {
+			setLikeApi(elementId)
+				.then(res => {
+					if (res.ok) {
+						return res.json();
+					}
+					return Promise.reject(`Ошибка: ${res.status}`);
+				})
+				.then((data) => {
+					likeElement.classList.add('element__like_active');
+					likesCounter.textContent = data.likes.length;
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+		}
+	});
 
 	// Удаление карочки
 	const deleteButton = cardElement.querySelector('.element__delete');
