@@ -1,28 +1,25 @@
 //Работа модальных окон
-
-// import {
-// 	nameInput,
-// 	jobInput
-// }
-// 	export const nameInput = formProfile.querySelector('input[name="popup__name"]');
-// 	export const jobInput = formProfile.querySelector('input[name="popup__job"]');
+import {
+	profileAvatarEdit
+} from "./editProfile.js"
 
 export const popupGallery = document.querySelector('.popup-gallery-add');
 const buttonAddCard = document.querySelector('.profile__button');
 const buttonProfile = document.querySelector('.profile__button-edit');
 
 
+
 // Функции открытия и закрытия popup
 export function openPopup(popup) {
 	popup.classList.add('popup_opened');
 	document.addEventListener('keydown', closePopupEsc);
-	popup.addEventListener('mousedown', handlePopupClose);
+	popup.addEventListener('mousedown', handlerPopupClose);
 }
 
 export function closePopup(popup) {
 	popup.classList.remove('popup_opened');
 	document.removeEventListener('keydown', closePopupEsc);
-	popup.removeEventListener('mousedown', handlePopupClose);
+	popup.removeEventListener('mousedown', handlerPopupClose);
 }
 
 // Popup с увеличенным изображением
@@ -47,6 +44,13 @@ export function openPopupAddCard(popupGallery) {
 	});
 }
 
+// Открытие popup добавления карточки
+export function openPopupAddAvatar(popupAvatar) {
+	profileAvatarEdit.addEventListener('click', () => {
+		openPopup(popupAvatar);
+	});
+}
+
 
 // Закрытие popup-ов Esc
 function closePopupEsc(e) {
@@ -57,7 +61,7 @@ function closePopupEsc(e) {
 }
 
 // Закрытие popup-ов кликом на оверлей или крестик
-function handlePopupClose(e) {
+function handlerPopupClose(e) {
 	if (e.target.classList.contains('popup_opened') || e.target.classList.contains('popup__close-icon')) {
 		closePopup(e.currentTarget);
 	}

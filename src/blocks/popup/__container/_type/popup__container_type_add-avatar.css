@@ -1,0 +1,19 @@
+.popup__container_type_add-avatar {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	max-width: 430px;
+	width: 100%;
+	background-color: #FFFFFF;
+	box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+	border-radius: 10px;
+}
+
+
+
+@media screen and (max-width: 767px) {
+	.popup__container_type_add-img {
+		max-width: 282px;
+	}
+}

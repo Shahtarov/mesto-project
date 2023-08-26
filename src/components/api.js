@@ -75,32 +75,12 @@ export const delLikeApi = (cardId) => {
 }
 
 // Сохранить аватарку
-export const saveUserAvatar = () => {
+export const saveUserAvatar = (url) => {
 	return fetch(`${config.baseUrl}/users/me/avatar`, {
-			method: 'PATCH',
-			headers: config.headers,
-			body: JSON.stringify({
-				// Вставить инфу
-				avatar: 'URL'
-			})
-
+		method: 'PATCH',
+		headers: config.headers,
+		body: JSON.stringify({
+			avatar: url
 		})
-		.catch((err) => {
-			console.log(err);
-		})
+	})
 }
-
-
-// export async function getUserProfile() {
-// 	const res = await fetch(`${config.baseUrl}/users/me`, {
-// 		headers: config.headers
-// 	});
-// 	const json = await res.json();
-// }
-
-// export const getUserProfile = () => {
-// 	return fetch(`${config.baseUrl}/users/me`, {
-// 			headers: config.headers
-// 		})
-// 		.then(res => res.json())
-// }

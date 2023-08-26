@@ -10,8 +10,13 @@ import {
 	pushCard,
 	deleteCard,
 	setLikeApi,
-	delLikeApi
+	delLikeApi,
+	getInitialCards
 } from "./api.js"
+
+import {
+	userAccount
+} from "../index.js"
 
 
 // Увеличение изображения
@@ -29,7 +34,7 @@ const urlInput = formGallery.querySelector('input[name="popup__url"]');
 
 
 // Функция удаление карочки
-function handleDelButton(button, element, elementId) {
+function handlerDelButton(button, element, elementId) {
 	button.addEventListener('click', () => {
 		element.remove();
 		deleteCard(elementId)
@@ -39,7 +44,6 @@ function handleDelButton(button, element, elementId) {
 				}
 				return Promise.reject(`Ошибка: ${res.status}`);
 			})
-			.then(data => console.log(`DEL ${data}`))
 			.catch((err) => {
 				console.log(err);
 			})
@@ -103,7 +107,7 @@ function createCard(elementName, elementLink, elementId, arrLikes, isCardOwner, 
 	// Удаление карочки
 	const deleteButton = cardElement.querySelector('.element__delete');
 	if (isCardOwner) {
-		handleDelButton(deleteButton, cardElement, elementId);
+		handlerDelButton(deleteButton, cardElement, elementId);
 	} else {
 		deleteButton.remove();
 	}
@@ -123,15 +127,37 @@ export function addСardToPage(elementName, elementLink, elementId, arrLikes, is
 }
 
 // Добавление карточки из формы
-function handleCardFormSubmit(e) {
+function handlerCardFormSubmit(e) {
 	e.preventDefault();
-	addСardToPage(titleInput.value, urlInput.value);
+	e.target.querySelector(".popup__submit").textContent = "Сохранение...";
 	pushCard(titleInput.value, urlInput.value)
+		.then(res => {
+			if (res.ok) {
+
+				return res.json();
+			}
+			return Promise.reject(`Ошибка: ${res.status}`);
+		})
+		.catch((err) => {
+			console.log(err);
+		});
+
+	while (elements.firstChild) {
+		elements.removeChild(elements.firstChild);
+	}
+
+	getInitialCards()
 		.then(res => {
 			if (res.ok) {
 				return res.json();
 			}
 			return Promise.reject(`Ошибка: ${res.status}`);
+		})
+		.then(data => {
+			data.forEach((e) => {
+				addСardToPage(e.name, e.link, e._id, e.likes, e.owner['_id'] === userAccount.userId, e.owner['_id']);
+				e.target.querySelector(".popup__submit").textContent = "Сохранить";
+			})
 		})
 		.catch((err) => {
 			console.log(err);
@@ -142,5 +168,5 @@ function handleCardFormSubmit(e) {
 
 // Добавление карточки из формы
 export function addCardFormSubmit() {
-	formGallery.addEventListener('submit', handleCardFormSubmit);
+	formGallery.addEventListener('submit', handlerCardFormSubmit);
 }

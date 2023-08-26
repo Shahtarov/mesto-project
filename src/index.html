@@ -16,7 +16,10 @@
 	<main class="content">
 
 		<section class="profile">
-			<img class="profile__avatar" alt="Фото профиля" src="">
+			<div class="profile__avatar">
+				<img class="profile__avatar-img" alt="Фото профиля" src="">
+				<button class="profile__avatar-edit"></button>
+			</div>
 			<div class="profile__info-block">
 				<h1 class="profile__name"></h1>
 				<button type="button" class="profile__button-edit" aria-label="Отредактировать профиль"></button>
@@ -97,13 +100,13 @@
 						<span class="popup__input-error"></span>
 					</label>
 					<label class="popup__label">
-						<input type="text" class="popup__information" name="popup__url" tabindex="2"
-								 placeholder="Ссылка на картинку" pattern="https:\/\/[\w\-\/\.\%\?]+\.(png|jpeg|webp|jpg)"
-								 data-message="Необходимо добавить ссылку" required>
+						<input type="url" class="popup__information" name="popup__url" tabindex="2"
+								 placeholder="Ссылка на картинку" pattern="https://.*" data-message="Необходимо добавить ссылку"
+								 required>
 						<span class="popup__input-error"></span>
 					</label>
 				</fieldset>
-				<button type="submit" class="popup__submit" tabindex="3">Сохранить</button>
+				<button type="submit" class="popup__submit" tabindex="3">Создать</button>
 			</form>
 
 		</div>
@@ -117,6 +120,29 @@
 			<img class="popup__image" src="#" alt="">
 			<figcaption class="popup__image-title"></figcaption>
 		</figure>
+	</section>
+
+	<!-- popup обновление аватарки -->
+	<section class="popup popup-avatar-add" aria-label="popup">
+
+		<div class="popup__container popup__container_type_add-avatar">
+			<button type="button" class="popup__close-icon" aria-label="Закрыть popup"
+					  name="popup__avatar-add-close"></button>
+
+			<h3 class="popup__heading">Обновить аватар</h3>
+
+			<form class="popup__form" name="avatar-add" novalidate>
+				<fieldset class="popup__inputs">
+					<label class="popup__label">
+						<input type="url" class="popup__information" name="popup__avatar" tabindex="1"
+								 placeholder="Ссылка на картинку" pattern="https://.*" data-message="Необходимо добавить ссылку"
+								 required>
+						<span class="popup__input-error"></span>
+					</label>
+				</fieldset>
+				<button type="submit" class="popup__submit" tabindex="2">Сохранить</button>
+			</form>
+		</div>
 	</section>
 
 </body>

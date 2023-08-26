@@ -5,8 +5,9 @@ import {
 
 import {
 	openPopupProfile,
+	openPopupAddAvatar,
 	openPopupAddCard,
-	popupGallery
+	popupGallery,
 } from "./components/modal.js";
 
 import {
@@ -17,6 +18,8 @@ import {
 import {
 	editProfile,
 	popupProfile,
+	popupAvatar,
+	editAvatar,
 	setUserProfile,
 	setDefaultInputValue,
 }
@@ -27,17 +30,19 @@ import {
 	getInitialCards,
 } from "./components/api.js"
 
-let userAccount = {
+export let userAccount = {
 	userName: "",
 	userId: ""
 };
 
-// Включение редактирования профиля
+// Включение редактированиий
 editProfile();
+editAvatar();
 
 // Открытие popup-ов
 openPopupProfile(popupProfile);
 openPopupAddCard(popupGallery);
+openPopupAddAvatar(popupAvatar);
 
 // Добавление карточки из формы
 addCardFormSubmit();
