@@ -12,6 +12,7 @@ This project provides the ability to upload and share photos.
 - CSS3;
 - Grid;
 - JavaScript;
+- API
 - Form validation;
 - Webpack.
 

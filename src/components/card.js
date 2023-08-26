@@ -2,6 +2,7 @@
 
 import {
 	increaseImage,
+	openPopup,
 	closePopup,
 	popupGallery,
 } from "./modal.js";
@@ -32,23 +33,30 @@ const formGallery = document.forms["gallery-add"];
 const titleInput = formGallery.querySelector('input[name="popup__title"]');
 const urlInput = formGallery.querySelector('input[name="popup__url"]');
 
+// Удаление карточки
+const popupDelCard = document.querySelector('.popup-card-delete');
+
 
 // Функция удаление карочки
-function handlerDelButton(button, element, elementId) {
-	button.addEventListener('click', () => {
-		element.remove();
-		deleteCard(elementId)
-			.then(res => {
-				if (res.ok) {
-					return res.json();
-				}
-				return Promise.reject(`Ошибка: ${res.status}`);
-			})
-			.catch((err) => {
-				console.log(err);
-			})
-	});
-}
+function handlerDelButton(element, elementId, popup, e) {
+
+	deleteCard(elementId)
+		.then(res => {
+			if (res.ok) {
+				return res.json();
+			}
+			return Promise.reject(`Ошибка: ${res.status}`);
+		})
+		.then(() => {
+			element.remove();
+			closePopup(popup);
+			e.target.querySelector(".popup__submit").textContent = "Да";
+		})
+		.catch((err) => {
+			e.target.querySelector(".popup__submit").textContent = "Ошибка удаления";
+			console.log(err);
+		})
+};
 
 
 // Создание карточки
@@ -107,7 +115,15 @@ function createCard(elementName, elementLink, elementId, arrLikes, isCardOwner, 
 	// Удаление карочки
 	const deleteButton = cardElement.querySelector('.element__delete');
 	if (isCardOwner) {
-		handlerDelButton(deleteButton, cardElement, elementId);
+		deleteButton.addEventListener('click', () => {
+			openPopup(popupDelCard);
+			const formCardDelete = document.forms["card-delete"];
+			formCardDelete.addEventListener('submit', (e) => {
+				e.preventDefault();
+				e.target.querySelector(".popup__submit").textContent = "Удаление...";
+				handlerDelButton(cardElement, elementId, popupDelCard, e);
+			});
+		});
 	} else {
 		deleteButton.remove();
 	}
@@ -129,41 +145,49 @@ export function addСardToPage(elementName, elementLink, elementId, arrLikes, is
 // Добавление карточки из формы
 function handlerCardFormSubmit(e) {
 	e.preventDefault();
-	e.target.querySelector(".popup__submit").textContent = "Сохранение...";
+	console.log(e.target.querySelector(".popup__submit").textContent);
+	e.target.querySelector(".popup__submit").textContent = "Создание...";
 	pushCard(titleInput.value, urlInput.value)
 		.then(res => {
 			if (res.ok) {
-
 				return res.json();
 			}
 			return Promise.reject(`Ошибка: ${res.status}`);
 		})
-		.catch((err) => {
-			console.log(err);
-		});
-
-	while (elements.firstChild) {
-		elements.removeChild(elements.firstChild);
-	}
-
-	getInitialCards()
-		.then(res => {
-			if (res.ok) {
-				return res.json();
+		.then(() => {
+			while (elements.firstChild) {
+				elements.removeChild(elements.firstChild);
 			}
-			return Promise.reject(`Ошибка: ${res.status}`);
-		})
-		.then(data => {
-			data.forEach((e) => {
-				addСardToPage(e.name, e.link, e._id, e.likes, e.owner['_id'] === userAccount.userId, e.owner['_id']);
-				e.target.querySelector(".popup__submit").textContent = "Сохранить";
-			})
+
+			getInitialCards()
+				.then(res => {
+					if (res.ok) {
+						return res.json();
+					}
+					return Promise.reject(`Ошибка: ${res.status}`);
+				})
+				.then((data) => {
+					(async function () {
+						await data.forEach((e) => {
+							addСardToPage(e.name, e.link, e._id, e.likes, e.owner['_id'] === userAccount.userId, e.owner['_id']);
+						})
+					})();
+				})
+				.then(() => {
+					closePopup(popupGallery);
+					formGallery.reset();
+					e.target.querySelector(".popup__submit").textContent = "Создать";
+
+				})
+				.catch((err) => {
+					e.target.querySelector(".popup__submit").textContent = "Ошибка";
+					console.log(err);
+				});
 		})
 		.catch((err) => {
+			e.target.querySelector(".popup__submit").textContent = "Ошибка";
 			console.log(err);
 		});
-	formGallery.reset();
-	closePopup(popupGallery);
 }
 
 // Добавление карточки из формы

@@ -36,6 +36,7 @@ export function setUserProfile(userName, userInformation, userAvatar) {
 	profileAvatarImg.src = userAvatar;
 	profileName.textContent = userName;
 	profileInformation.textContent = userInformation;
+	profileAvatarImg.alt = `Фото профиля ${userName}`;
 }
 
 
@@ -43,17 +44,19 @@ export function setUserProfile(userName, userInformation, userAvatar) {
 function handlerProfileFormSubmit(e) {
 	e.preventDefault();
 	e.target.querySelector(".popup__submit").textContent = "Сохранение...";
-	profileName.textContent = nameInput.value;
-	profileInformation.textContent = jobInput.value;
 	pushUserProfile(nameInput.value, jobInput.value)
 		.then(res => {
 			if (res.ok) {
+				profileName.textContent = nameInput.value;
+				profileInformation.textContent = jobInput.value;
+				profileAvatarImg.alt = `Фото профиля ${nameInput.value}`;
 				e.target.querySelector(".popup__submit").textContent = "Сохранить";
 				return res.json();
 			}
 			return Promise.reject(`Ошибка: ${res.status}`);
 		})
 		.catch((err) => {
+			e.target.querySelector(".popup__submit").textContent = "Ошибка";
 			console.log(err);
 		});
 	closePopup(popupProfile);
@@ -67,16 +70,17 @@ export function editProfile() {
 function handlerEditAvatar(e) {
 	e.preventDefault();
 	e.target.querySelector(".popup__submit").textContent = "Сохранение...";
-	profileAvatarImg.src = avatarInput.value;
 	saveUserAvatar(avatarInput.value)
 		.then(res => {
 			if (res.ok) {
+				profileAvatarImg.src = avatarInput.value;
 				e.target.querySelector(".popup__submit").textContent = "Сохранить";
 				return res.json();
 			}
 			return Promise.reject(`Ошибка: ${res.status}`);
 		})
 		.catch((err) => {
+			e.target.querySelector(".popup__submit").textContent = "Ошибка добавления"
 			console.log(err);
 		});
 	formAvatar.reset();

@@ -70,24 +70,27 @@ getUserProfile()
 		setDefaultInputValue(data.name, data.about);
 		userAccount.userName = data.name;
 		userAccount.userId = data['_id'];
+		return data;
 	})
-	.catch((err) => {
-		console.log(err);
-	});
-
-
-// Получение карточек с сервера
-getInitialCards()
-	.then(res => {
-		if (res.ok) {
-			return res.json();
-		}
-		return Promise.reject(`Ошибка: ${res.status}`);
-	})
-	.then(data => {
-		data.forEach((e) => {
-			addСardToPage(e.name, e.link, e._id, e.likes, e.owner['_id'] === userAccount.userId, e.owner['_id']);
-		})
+	.then(() => {
+		// Получение карточек с сервера
+		getInitialCards()
+			.then(res => {
+				if (res.ok) {
+					return res.json();
+				}
+				return Promise.reject(`Ошибка: ${res.status}`);
+			})
+			.then(data => {
+				(async function () {
+					await data.forEach((e) => {
+						addСardToPage(e.name, e.link, e._id, e.likes, e.owner['_id'] === userAccount.userId, e.owner['_id']);
+					})
+				})();
+			})
+			.catch((err) => {
+				console.log(err);
+			});
 	})
 	.catch((err) => {
 		console.log(err);
