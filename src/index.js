@@ -57,40 +57,19 @@ enableValidation({
 });
 
 
-// Получение своего профиля
-getUserProfile()
-	.then(res => {
-		if (res.ok) {
-			return res.json();
+Promise.all([getUserProfile(), getInitialCards()])
+	.then(([resUser, resCards]) => {
+		if (resUser.ok && resCards.ok) {
+			return Promise.all([resUser.json(), resCards.json()]);
 		}
-		return Promise.reject(`Ошибка: ${res.status}`);
+		return Promise.reject(`Ошибка. Профиль: ${resUser.status}, Карточки ${resCards.status}`);
 	})
-	.then(data => {
-		setUserProfile(data.name, data.about, data.avatar);
-		setDefaultInputValue(data.name, data.about);
-		userAccount.userName = data.name;
-		userAccount.userId = data['_id'];
-		return data;
-	})
-	.then(() => {
-		// Получение карточек с сервера
-		getInitialCards()
-			.then(res => {
-				if (res.ok) {
-					return res.json();
-				}
-				return Promise.reject(`Ошибка: ${res.status}`);
-			})
-			.then(data => {
-				(async function () {
-					await data.forEach((e) => {
-						addСardToPage(e.name, e.link, e._id, e.likes, e.owner['_id'] === userAccount.userId, e.owner['_id']);
-					})
-				})();
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+	.then(([user, cards]) => {
+		setUserProfile(user.name, user.about, user.avatar);
+		setDefaultInputValue(user.name, user.about);
+		cards.forEach((card) => {
+			addСardToPage(card.name, card.link, card._id, card.likes, card.owner._id === user._id, card.owner._id);
+		})
 	})
 	.catch((err) => {
 		console.log(err);

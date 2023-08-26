@@ -169,7 +169,7 @@ function handlerCardFormSubmit(e) {
 				.then((data) => {
 					(async function () {
 						await data.forEach((e) => {
-							addСardToPage(e.name, e.link, e._id, e.likes, e.owner['_id'] === userAccount.userId, e.owner['_id']);
+							addСardToPage(e.name, e.link, e._id, e.likes, e.owner._id === userAccount.userId, e.owner._id);
 						})
 					})();
 				})
