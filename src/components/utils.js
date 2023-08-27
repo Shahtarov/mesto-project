@@ -1,1 +1,15 @@
 //Утилитарные функции, которые используются в работе сразу нескольких других функций
+function checkResponse(res) {
+	if (res.ok) {
+		return res.json();
+	}
+	return Promise.reject(`Ошибка ${res.status}`);
+}
+
+export function request(url, options) {
+	return fetch(url, options)
+		.then(checkResponse)
+		.catch((err) => {
+			console.log(err);
+		});
+}

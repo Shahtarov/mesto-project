@@ -1,7 +1,7 @@
 // Работа с api
-// import {
-// 	user
-// } from "./editProfile";
+import {
+	request
+} from "./utils.js";
 
 const config = {
 	baseUrl: 'https://nomoreparties.co/v1/plus-cohort-28',
@@ -11,24 +11,23 @@ const config = {
 	}
 }
 
-
 // Получение пользователя с сервера
 export const getUserProfile = () => {
-	return fetch(`${config.baseUrl}/users/me`, {
+	return request(`${config.baseUrl}/users/me`, {
 		headers: config.headers
 	})
 }
 
 // Получение карточек
 export const getInitialCards = () => {
-	return fetch(`${config.baseUrl}/cards`, {
+	return request(`${config.baseUrl}/cards`, {
 		headers: config.headers
 	})
 }
 
 // Сохранить данные профиля на сервере
 export const pushUserProfile = (userName, userInformation) => {
-	return fetch(`${config.baseUrl}/users/me`, {
+	return request(`${config.baseUrl}/users/me`, {
 		method: 'PATCH',
 		headers: config.headers,
 		body: JSON.stringify({
@@ -40,7 +39,7 @@ export const pushUserProfile = (userName, userInformation) => {
 
 // Сохранить карточку на сервере
 export const pushCard = (cardName, cardLink) => {
-	return fetch(`${config.baseUrl}/cards`, {
+	return request(`${config.baseUrl}/cards`, {
 		method: 'POST',
 		headers: config.headers,
 		body: JSON.stringify({
@@ -52,7 +51,7 @@ export const pushCard = (cardName, cardLink) => {
 
 // Удаление карточки
 export const deleteCard = (cardId) => {
-	return fetch(`${config.baseUrl}/cards/${cardId}`, {
+	return request(`${config.baseUrl}/cards/${cardId}`, {
 		method: 'DELETE',
 		headers: config.headers
 	})
@@ -60,7 +59,7 @@ export const deleteCard = (cardId) => {
 
 // Поставить like
 export const setLikeApi = (cardId) => {
-	return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+	return request(`${config.baseUrl}/cards/likes/${cardId}`, {
 		method: 'PUT',
 		headers: config.headers,
 	})
@@ -68,7 +67,7 @@ export const setLikeApi = (cardId) => {
 
 // Удалить like
 export const delLikeApi = (cardId) => {
-	return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+	return request(`${config.baseUrl}/cards/likes/${cardId}`, {
 		method: 'DELETE',
 		headers: config.headers,
 	})
@@ -76,7 +75,7 @@ export const delLikeApi = (cardId) => {
 
 // Сохранить аватарку
 export const saveUserAvatar = (url) => {
-	return fetch(`${config.baseUrl}/users/me/avatar`, {
+	return request(`${config.baseUrl}/users/me/avatar`, {
 		method: 'PATCH',
 		headers: config.headers,
 		body: JSON.stringify({

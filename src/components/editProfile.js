@@ -45,21 +45,15 @@ function handlerProfileFormSubmit(e) {
 	e.preventDefault();
 	e.target.querySelector(".popup__submit").textContent = "Сохранение...";
 	pushUserProfile(nameInput.value, jobInput.value)
-		.then(res => {
-			if (res.ok) {
-				profileName.textContent = nameInput.value;
-				profileInformation.textContent = jobInput.value;
-				profileAvatarImg.alt = `Фото профиля ${nameInput.value}`;
-				e.target.querySelector(".popup__submit").textContent = "Сохранить";
-				return res.json();
-			}
-			return Promise.reject(`Ошибка: ${res.status}`);
+		.then(() => {
+			profileName.textContent = nameInput.value;
+			profileInformation.textContent = jobInput.value;
+			profileAvatarImg.alt = `Фото профиля ${nameInput.value}`;
 		})
-		.catch((err) => {
-			e.target.querySelector(".popup__submit").textContent = "Ошибка";
-			console.log(err);
-		});
-	closePopup(popupProfile);
+		.then(() => {
+			closePopup(popupProfile);
+			e.target.querySelector(".popup__submit").textContent = "Сохранить";
+		})
 }
 
 export function editProfile() {
@@ -71,20 +65,14 @@ function handlerEditAvatar(e) {
 	e.preventDefault();
 	e.target.querySelector(".popup__submit").textContent = "Сохранение...";
 	saveUserAvatar(avatarInput.value)
-		.then(res => {
-			if (res.ok) {
-				profileAvatarImg.src = avatarInput.value;
-				e.target.querySelector(".popup__submit").textContent = "Сохранить";
-				return res.json();
-			}
-			return Promise.reject(`Ошибка: ${res.status}`);
+		.then(() => {
+			profileAvatarImg.src = avatarInput.value;
 		})
-		.catch((err) => {
-			e.target.querySelector(".popup__submit").textContent = "Ошибка добавления"
-			console.log(err);
-		});
-	formAvatar.reset();
-	closePopup(popupAvatar);
+		.then(() => {
+			closePopup(popupAvatar);
+			e.target.querySelector(".popup__submit").textContent = "Сохранить";
+			formAvatar.reset();
+		})
 }
 
 export function editAvatar() {
