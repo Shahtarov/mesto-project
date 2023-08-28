@@ -12,7 +12,8 @@ import {
 
 import {
 	addCardFormSubmit,
-	addСardToPage
+	addСardToPage,
+	delCardFormSubmit
 } from "./components/card.js";
 
 import {
@@ -21,7 +22,7 @@ import {
 	popupAvatar,
 	editAvatar,
 	setUserProfile,
-	setDefaultInputValue,
+	fillProfileInputs,
 }
 from "./components/editProfile.js";
 
@@ -36,13 +37,14 @@ export let userId;
 editProfile();
 editAvatar();
 
+// Добавление и удаление карточки
+addCardFormSubmit();
+delCardFormSubmit();
+
 // Открытие popup-ов
 openPopupProfile(popupProfile);
 openPopupAddCard(popupGallery);
 openPopupAddAvatar(popupAvatar);
-
-// Добавление карточки из формы
-addCardFormSubmit();
 
 
 // Включение валидации форм
@@ -54,12 +56,16 @@ enableValidation({
 });
 
 
+// Получение карточек и профиля
 Promise.all([getUserProfile(), getInitialCards()])
 	.then(([user, cards]) => {
 		setUserProfile(user.name, user.about, user.avatar);
-		setDefaultInputValue(user.name, user.about);
+		fillProfileInputs(user.name, user.about);
 		userId = user._id;
 		cards.forEach((card) => {
 			addСardToPage(card.name, card.link, card._id, card.likes, card.owner._id === user._id, card.owner._id);
 		})
 	})
+	.catch((err) => {
+		console.log(err);
+	});

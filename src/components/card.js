@@ -12,13 +12,15 @@ import {
 	deleteCard,
 	setLikeApi,
 	delLikeApi,
-	getInitialCards
 } from "./api.js"
+
+import {
+	renderLoading
+} from "./utils.js"
 
 import {
 	userId
 } from "../index.js"
-
 
 
 // Увеличение изображения
@@ -39,7 +41,6 @@ const popupDelCard = document.querySelector('.popup-card-delete');
 const formCardDelete = document.forms["card-delete"];
 let cardDelete;
 let cardDeleteId;
-
 
 // Создание карточки
 function createCard(elementName, elementLink, elementId, arrLikes, isCardOwner, owner) {
@@ -67,12 +68,18 @@ function createCard(elementName, elementLink, elementId, arrLikes, isCardOwner, 
 					likeElement.classList.remove('element__like_active');
 					likesCounter.textContent = data.likes.length;
 				})
+				.catch((err) => {
+					console.log(err);
+				});
 		} else {
 			setLikeApi(elementId)
 				.then((data) => {
 					likeElement.classList.add('element__like_active');
 					likesCounter.textContent = data.likes.length;
 				})
+				.catch((err) => {
+					console.log(err);
+				});
 		}
 	});
 
@@ -102,31 +109,28 @@ function createCard(elementName, elementLink, elementId, arrLikes, isCardOwner, 
 // Добавление карточек на страницу
 export function addСardToPage(elementName, elementLink, elementId, arrLikes, isCardOwner, owner) {
 	const card = createCard(elementName, elementLink, elementId, arrLikes, isCardOwner, owner);
-	elements.appendChild(card);
+	elements.prepend(card);
 }
 
 // Добавление карточки из формы
 function handlerCardFormSubmit(e) {
 	e.preventDefault();
-	e.target.querySelector(".popup__submit").textContent = "Создание...";
+	const submitButton = e.submitter;
+	renderLoading(true, submitButton);
 	pushCard(titleInput.value, urlInput.value)
-		.then(() => {
-			while (elements.firstChild) {
-				elements.removeChild(elements.firstChild);
-			}
-		})
-		.then(() => {
-			getInitialCards()
-				.then((data) => {
-					data.forEach((e) => {
-						addСardToPage(e.name, e.link, e._id, e.likes, e.owner._id === userId, e.owner._id);
-					})
-				})
+		.then((card) => {
+			addСardToPage(card.name, card.link, card._id, card.likes, card.owner._id === userId, card.owner._id);
 		})
 		.then(() => {
 			closePopup(popupGallery);
-			formGallery.reset();
-			e.target.querySelector(".popup__submit").textContent = "Создать";
+			e.target.reset();;
+
+		})
+		.catch((err) => {
+			console.log(err);
+		})
+		.finally(() => {
+			renderLoading(false, submitButton);
 		})
 }
 
@@ -136,13 +140,24 @@ export function addCardFormSubmit() {
 }
 
 // Удаление карточки при подтверждении в popup
-formCardDelete.addEventListener('submit', (e) => {
+function handletDeleteCard(e) {
 	e.preventDefault();
-	e.target.querySelector(".popup__submit").textContent = "Удаление...";
+	const submitButton = e.submitter;
+	renderLoading(true, submitButton);
 	deleteCard(cardDeleteId)
 		.then(() => {
 			cardDelete.remove();
 			closePopup(popupDelCard);
-			e.target.querySelector(".popup__submit").textContent = "Да";
+
 		})
-});
+		.catch((err) => {
+			console.log(err);
+		})
+		.finally(() => {
+			renderLoading(false, submitButton, "Да");
+		})
+}
+
+export function delCardFormSubmit() {
+	formCardDelete.addEventListener('submit', handletDeleteCard);
+}

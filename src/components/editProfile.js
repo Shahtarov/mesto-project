@@ -7,6 +7,10 @@ import {
 	saveUserAvatar
 } from "./api.js"
 
+import {
+	renderLoading
+} from "./utils.js"
+
 // Редактирование профиля
 const formProfile = document.forms["profile-edit"];
 const nameInput = formProfile.querySelector('input[name="popup__name"]');
@@ -26,7 +30,7 @@ export const profileAvatarEdit = document.querySelector('.profile__avatar-edit')
 export const popupAvatar = document.querySelector('.popup-avatar-add');
 
 
-export function setDefaultInputValue(userName, userInformation) {
+export function fillProfileInputs(userName, userInformation) {
 	nameInput.value = userName;
 	jobInput.value = userInformation;
 }
@@ -43,7 +47,8 @@ export function setUserProfile(userName, userInformation, userAvatar) {
 // Отредактировать профиль
 function handlerProfileFormSubmit(e) {
 	e.preventDefault();
-	e.target.querySelector(".popup__submit").textContent = "Сохранение...";
+	const submitButton = e.submitter;
+	renderLoading(true, submitButton);
 	pushUserProfile(nameInput.value, jobInput.value)
 		.then(() => {
 			profileName.textContent = nameInput.value;
@@ -52,7 +57,12 @@ function handlerProfileFormSubmit(e) {
 		})
 		.then(() => {
 			closePopup(popupProfile);
-			e.target.querySelector(".popup__submit").textContent = "Сохранить";
+		})
+		.catch((err) => {
+			console.log(err);
+		})
+		.finally(() => {
+			renderLoading(false, submitButton);
 		})
 }
 
@@ -63,15 +73,21 @@ export function editProfile() {
 // Отредактировать аватарку
 function handlerEditAvatar(e) {
 	e.preventDefault();
-	e.target.querySelector(".popup__submit").textContent = "Сохранение...";
+	const submitButton = e.submitter;
+	renderLoading(true, submitButton);
 	saveUserAvatar(avatarInput.value)
 		.then(() => {
 			profileAvatarImg.src = avatarInput.value;
 		})
 		.then(() => {
 			closePopup(popupAvatar);
-			e.target.querySelector(".popup__submit").textContent = "Сохранить";
-			formAvatar.reset();
+			e.target.reset();
+		})
+		.catch((err) => {
+			console.log(err);
+		})
+		.finally(() => {
+			renderLoading(false, submitButton);
 		})
 }
 
