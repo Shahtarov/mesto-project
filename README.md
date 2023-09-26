@@ -17,6 +17,8 @@ This project provides the ability to upload and share photos.
 -  Object-oriented programming;
 -  Webpack.
 
+---
+
 ## Collaboration
 
 [Дмитрий Азаров](https://github.com/azarovdv)
