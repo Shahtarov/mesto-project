@@ -3,8 +3,9 @@ import {
 } from "./modal.js";
 
 import {
-	pushUserProfile,
-	saveUserAvatar
+	// pushUserProfile,
+	// saveUserAvatar,
+	api
 } from "./api.js"
 
 import {
@@ -38,7 +39,7 @@ class UserInfo {
 
 	//Содержит публичный метод getUserInfo, который возвращает объект с данными пользователя. Данные для этого метода нужно получать от методов класса Api — подумайте над тем, как внедрить метод класса Api в getUserInfo. Когда данные пользователя нужно будет подставить в форму при открытии — метод вам пригодится.
 	getUserInfo() {
-
+		api.getUserProfile();
 	}
 
 	//Содержит публичный метод setUserInfo, который принимает новые данные пользователя, отправляет их на сервер и добавляет их на страницу.

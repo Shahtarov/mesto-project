@@ -29,6 +29,7 @@ from "./components/editProfile.js";
 import {
 	getUserProfile,
 	getInitialCards,
+	api
 } from "./components/api.js"
 
 export let userId;
@@ -57,7 +58,7 @@ enableValidation({
 
 
 // Получение карточек и профиля
-Promise.all([getUserProfile(), getInitialCards()])
+Promise.all([api.getUserProfile(), api.getInitialCards()])
 	.then(([user, cards]) => {
 		setUserProfile(user.name, user.about, user.avatar);
 		fillProfileInputs(user.name, user.about);
