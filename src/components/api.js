@@ -3,83 +3,106 @@ import {
 	request
 } from "./utils.js";
 
-const config = {
+
+class Api {
+	constructor({
+		baseUrl,
+		headers
+	}) {
+		this.baseUrl = baseUrl;
+		this.headers = headers;
+	}
+
+	// Получение карточек
+	getInitialCards() {
+		return request(`${this.baseUrl}/cards`, {
+			headers: this.headers
+		});
+	}
+
+	// Получение пользователя с сервера
+	getUserProfile() {
+		return request(`${this.baseUrl}/users/me`, {
+			headers: this.headers
+		});
+	}
+
+
+
+	// Сохранить данные профиля на сервере
+	pushUserProfile(userName, userInformation) {
+		return request(`${this.baseUrl}/users/me`, {
+			method: 'PATCH',
+			headers: this.headers,
+			body: JSON.stringify({
+				name: userName,
+				about: userInformation
+			})
+		});
+	}
+
+	// Сохранить карточку на сервере
+	pushCard(cardName, cardLink) {
+		return request(`${this.baseUrl}/cards`, {
+			method: 'POST',
+			headers: this.headers,
+			body: JSON.stringify({
+				name: cardName,
+				link: cardLink
+			})
+		});
+	}
+
+	// Удаление карточки
+	deleteCard(cardId) {
+		return request(`${this.baseUrl}/cards/${cardId}`, {
+			method: 'DELETE',
+			headers: this.headers
+		});
+	}
+
+	// Поставить like
+	setLikeApi(cardId) {
+		return request(`${this.baseUrl}/cards/likes/${cardId}`, {
+			method: 'PUT',
+			headers: this.headers,
+		});
+	}
+
+	// Удалить like
+	delLikeApi(cardId) {
+		return request(`${this.baseUrl}/cards/likes/${cardId}`, {
+			method: 'DELETE',
+			headers: this.headers,
+		});
+	}
+
+	// Сохранить аватарку
+	saveUserAvatar(url) {
+		return request(`${this.baseUrl}/users/me/avatar`, {
+			method: 'PATCH',
+			headers: this.headers,
+			body: JSON.stringify({
+				avatar: url
+			})
+		});
+	}
+}
+
+export const api = new Api({
 	baseUrl: 'https://nomoreparties.co/v1/plus-cohort-28',
 	headers: {
 		authorization: '0ad49ebc-d439-4122-a1bb-b1c1bfd063b4',
 		'Content-Type': 'application/json'
 	}
-}
+});
 
-// Получение пользователя с сервера
-export const getUserProfile = () => {
-	return request(`${config.baseUrl}/users/me`, {
-		headers: config.headers
-	})
-}
 
-// Получение карточек
-export const getInitialCards = () => {
-	return request(`${config.baseUrl}/cards`, {
-		headers: config.headers
-	})
-}
 
-// Сохранить данные профиля на сервере
-export const pushUserProfile = (userName, userInformation) => {
-	return request(`${config.baseUrl}/users/me`, {
-		method: 'PATCH',
-		headers: config.headers,
-		body: JSON.stringify({
-			name: userName,
-			about: userInformation
-		})
-	})
-}
-
-// Сохранить карточку на сервере
-export const pushCard = (cardName, cardLink) => {
-	return request(`${config.baseUrl}/cards`, {
-		method: 'POST',
-		headers: config.headers,
-		body: JSON.stringify({
-			name: cardName,
-			link: cardLink
-		})
-	})
-}
-
-// Удаление карточки
-export const deleteCard = (cardId) => {
-	return request(`${config.baseUrl}/cards/${cardId}`, {
-		method: 'DELETE',
-		headers: config.headers
-	})
-}
-
-// Поставить like
-export const setLikeApi = (cardId) => {
-	return request(`${config.baseUrl}/cards/likes/${cardId}`, {
-		method: 'PUT',
-		headers: config.headers,
-	})
-}
-
-// Удалить like
-export const delLikeApi = (cardId) => {
-	return request(`${config.baseUrl}/cards/likes/${cardId}`, {
-		method: 'DELETE',
-		headers: config.headers,
-	})
-}
-
-// Сохранить аватарку
-export const saveUserAvatar = (url) => {
-	return request(`${config.baseUrl}/users/me/avatar`, {
-		method: 'PATCH',
-		headers: config.headers,
-		body: JSON.stringify({
-			avatar: url
-		})
-	})
-}
+// const config = {
+// 	baseUrl: 'https://nomoreparties.co/v1/plus-cohort-28',
+// 	headers: {
+// 		authorization: '0ad49ebc-d439-4122-a1bb-b1c1bfd063b4',
+// 		'Content-Type': 'application/json'
+// 	}
+// }
