@@ -40,14 +40,14 @@ let cardDelete;
 let cardDeleteId;
 
 
-class Card {
+export class Card {
 	constructor({
 		elementName,
 		elementLink
 	}, elementTemplate) {
-		this.elementName = elementName,
-			this.elementLink = elementLink,
-			this.elementTemplate = elementTemplate
+		this.elementName = elementName;
+		this.elementLink = elementLink;
+		this.elementTemplate = elementTemplate;
 	}
 
 	// Добавление лайка
@@ -154,17 +154,7 @@ class Card {
 }
 
 
-class Section {
-	constructor() {
 
-	}
-
-	addСardToPage() {
-		const elements = document.querySelector('.elements');
-		const card = new Card;
-		elements.prepend(card.getElement());
-	}
-}
 
 
 // Создание карточки

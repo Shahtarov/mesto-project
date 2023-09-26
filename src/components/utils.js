@@ -1,4 +1,26 @@
 //Утилитарные функции, которые используются в работе сразу нескольких других функций
+import {
+	Card
+} from './card';
+
+export class Section {
+	constructor({
+		items,
+		renderer
+	}, selector) {
+		this.items = items;
+		this.renderer = renderer;
+		this.selector = selector;
+	}
+
+	addСardToPage() {
+		const elements = document.querySelector('.elements');
+		const card = new Card;
+		elements.prepend(card.getElement());
+	}
+}
+
+
 export function renderLoading(isLoading, button, buttonText = 'Сохранить') {
 	let loadingText = 'Сохранение...';
 	if (isLoading) {
@@ -6,16 +28,4 @@ export function renderLoading(isLoading, button, buttonText = 'Сохранит�
 	} else {
 		button.textContent = buttonText;
 	}
-}
-
-function checkResponse(res) {
-	if (res.ok) {
-		return res.json();
-	}
-	return Promise.reject(`Ошибка ${res.status}`);
-}
-
-export function request(url, options) {
-	return fetch(url, options)
-		.then(checkResponse)
 }

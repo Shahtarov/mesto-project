@@ -30,6 +30,27 @@ export const profileAvatarEdit = document.querySelector('.profile__avatar-edit')
 export const popupAvatar = document.querySelector('.popup-avatar-add');
 
 
+class UserInfo {
+	constructor(userName, userInformation) {
+		this.userName = userName;
+		this.userInformation = userInformation;
+	}
+
+	//Содержит публичный метод getUserInfo, который возвращает объект с данными пользователя. Данные для этого метода нужно получать от методов класса Api — подумайте над тем, как внедрить метод класса Api в getUserInfo. Когда данные пользователя нужно будет подставить в форму при открытии — метод вам пригодится.
+	getUserInfo() {
+
+	}
+
+	//Содержит публичный метод setUserInfo, который принимает новые данные пользователя, отправляет их на сервер и добавляет их на страницу.
+	setUserInfo() {
+		profileName.textContent = this.userName;
+		profileInformation.textContent = this.userInformation;
+		profileAvatarImg.alt = `Фото профиля ${this.userName}`;
+	}
+}
+// const fillProfileInputs = new UserInfo(nameInput.value, jobInput.value);
+
+// Сохранить данные пользователя в inputs
 export function fillProfileInputs(userName, userInformation) {
 	nameInput.value = userName;
 	jobInput.value = userInformation;
@@ -38,9 +59,9 @@ export function fillProfileInputs(userName, userInformation) {
 // Установка данных пользователя из api
 export function setUserProfile(userName, userInformation, userAvatar) {
 	profileAvatarImg.src = userAvatar;
-	profileName.textContent = userName;
-	profileInformation.textContent = userInformation;
-	profileAvatarImg.alt = `Фото профиля ${userName}`;
+	// profileName.textContent = userName;
+	// profileInformation.textContent = userInformation;
+	// profileAvatarImg.alt = `Фото профиля ${userName}`;
 }
 
 
