@@ -1,100 +1,81 @@
-//Валидация
-
-
-
-// class FormValidator() {
-// 	constructor({
-// 			inputSelector,
-// 			submitButtonSelector,
-// 			inputErrorClass
-// 		}, formSelector) {
-// 		this.formSelector = formSelector;
-// 		this.inputSelector = inputSelector;
-// 		this.submitButtonSelector = submitButtonSelector;
-// 		this.inputErrorClass = inputErrorClass;
-// 	}
-// }
-
-class FormValidator {
-	constructor({
-		formSelector,
-		inputSelector,
-		submitButtonSelector,
-		inputErrorClass
-	}) {
-		this.formSelector = formSelector;
-		this.inputSelector = inputSelector;
-		this.submitButtonSelector = submitButtonSelector;
+//Валидация форм
+export default class FormValidator {
+	constructor(
+		{ inputSelector, submitButtonSelector, inputErrorClass },
+		formSelector
+	) {
+		this.form = document.querySelector(formSelector);
+		this.inputs = [...this.form.querySelectorAll(inputSelector)];
+		this.submitButton = this.form.querySelector(submitButtonSelector);
 		this.inputErrorClass = inputErrorClass;
 	}
 
 	// Отображение ошибки
-	showInputError(input) {
-		input.classList.add(inputErrorClass);
+	#showInputError(input) {
+		input.classList.add(this.inputErrorClass);
 	}
 
 	// Удаление ошибки
-	hideInputError(input) {
-		input.classList.remove(inputErrorClass);
+	#hideInputError(input) {
+		input.classList.remove(this.inputErrorClass);
 	}
 
 	// Проверка валидации всех ворм
-	isValid(inputs) {
-		return inputs.every(input => {
+	#isValid(inputs) {
+		return inputs.every((input) => {
 			return input.validity.valid;
-		})
+		});
 	}
 
 	// Смена цвета кнопки
-	changeSubmitStatus(inputs, submit) {
-		if (isValid(inputs)) {
+	#changeSubmitStatus(inputs, submit) {
+		if (this.#isValid(inputs)) {
 			submit.removeAttribute("disabled", "");
 		} else {
 			submit.setAttribute("disabled", "");
 		}
 	}
 
-	showErrorText(input) {
+	#showErrorText(input) {
 		if (input.validity.patternMismatch) {
-			showInputError(input);
+			this.#showInputError(input);
 			input.nextElementSibling.textContent = input.dataset.message;
 		} else if (!input.validity.valid) {
-			showInputError(input);
+			this.#showInputError(input);
 			input.nextElementSibling.textContent = input.validationMessage;
 		} else {
-			hideInputError(input);
+			this.#hideInputError(input);
 			input.nextElementSibling.textContent = "";
 		}
 	}
 
 	// Установка слушателей на inputs
-	_setEventListener(form) {
-		const inputs = [...form.querySelectorAll(this.inputSelector)];
-		const submit = form.querySelector(this.submitButtonSelector);
-		changeSubmitStatus(inputs, submit);
-		form.addEventListener('reset', () => {
+	#setEventListener() {
+		this.#changeSubmitStatus(inputs, submit);
+		this.form.addEventListener("reset", () => {
 			submit.setAttribute("disabled", "");
 		});
-		inputs.forEach((input) => {
-			input.addEventListener('input', (e) => {
-				showErrorText(e.target);
-				changeSubmitStatus(inputs, submit);
+
+		this.inputs.forEach((input) => {
+			input.addEventListener("input", (e) => {
+				this.#showErrorText(e.target);
+				this.#changeSubmitStatus(inputs, submit);
 			});
-		})
+		});
 	}
 
 	// Включение валидации и перебор форм
 	enableValidation() {
-		const forms = [...document.querySelectorAll(this.formSelector)];
-		forms.forEach((form) => {
-			this._setEventListener(form);
+		this.form.addEventListener("submit", function (e) {
+			e.preventDefault();
 		});
+		this.#setEventListener();
+		// const forms = [...document.querySelectorAll(this.formSelector)];
+		// forms.forEach((form) => {
+		// 	this.#setEventListener(form);
+		// });
 	}
 }
-
-
-
-
 
 // function setEventListener(form, settings) {
 // 	const inputs = [...form.querySelectorAll(settings.inputSelector)];

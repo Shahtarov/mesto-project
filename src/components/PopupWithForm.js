@@ -1,37 +1,32 @@
-import { Popup } from "./Popup.js";
-import api from "../index.js";
+import Popup from "./Popup.js";
 
 // Popup с формой
-export class PopupWithForm extends Popup {
-	constructor(popupSelector, handler) {
-		super(popupSelector);
-		this._form = this.popupSelector.querySelector(".popup__form");
-		this._handler = handler;
+export default class PopupWithForm extends Popup {
+	constructor({ formSelector, inputSelector }, popupElement, handler) {
+		super(popupElement);
+		this.form = document.querySelector(formSelector);
+		this.inputSelector = inputSelector;
+		this.handler = handler;
 	}
 
 	//Перезаписывает родительский метод close, так как при закрытии попапа форма должна ещё и сбрасываться.
-	closePopup() {
-		super.closePopup();
-		this._form.reset();
-
-		// popup.classList.remove(this.popupSelector);
-		// document.removeEventListener("keydown", this._handleEscClose);
-		// popup.removeEventListener("mousedown", this.setEventListeners);
+	close() {
+		super.close();
+		this.form.reset();
 	}
 
-	//Содержит приватный метод _getInputValues, который собирает данные всех полей формы.
-	_getInputValues() {
-		const inputs = [...form.querySelectorAll(".popup__information").value];
+	//Содержит приватный метод getInputValues, который собирает данные всех полей формы.
+	#getInputValues() {
+		const inputs = [...this.form.querySelectorAll(this.inputSelector).value];
 		return inputs;
 	}
 
 	// Перезаписывает родительский метод setEventListeners. Метод setEventListeners класса PopupWithForm должен не только добавлять обработчик клика иконке закрытия, но и добавлять обработчик сабмита формы.
 	setEventListeners() {
 		super.setEventListeners();
-		this._form.addEventListener("submit", (e) => {
+		this.form.addEventListener("submit", function (e) {
 			e.preventDefault();
-			this.handler(this._getInputValues());
+			this.handler(this.#getInputValues());
 		});
 	}
 }
-
