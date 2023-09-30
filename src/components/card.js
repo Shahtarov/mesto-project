@@ -26,15 +26,16 @@ import { userId } from "../index.js";
 
 export default class Card {
 	constructor(
-		{ elementName, elementLink, cardId, isCardOwner, owner },
+		{ elementName, elementLink, cardId, likes, isCardOwner, ownerId },
 		elementTemplate,
 		popupDelCard
 	) {
 		this.elementName = elementName;
 		this.elementLink = elementLink;
 		this.cardId = cardId;
+		this.likes = likes;
 		this.isCardOwner = isCardOwner;
-		this.owner = owner;
+		this.owner = ownerId;
 		this.elementTemplate = elementTemplate;
 		this.popupDelCard = popupDelCard;
 		this.cardDelete;
@@ -82,7 +83,7 @@ export default class Card {
 		api.deleteCard(cardDeleteId)
 			.then(() => {
 				cardDelete.remove();
-				closePopup(popupDelCard);
+				popupDelCard.close();
 			})
 			.catch((err) => {
 				console.log(err);
@@ -116,7 +117,7 @@ export default class Card {
 		const deleteButton = cardElement.querySelector(".element__delete");
 		if (isCardOwner) {
 			deleteButton.addEventListener("click", function () {
-				open(popupDelCard);
+				popupDelCard.open();
 				cardDelete = cardElement;
 				cardDeleteId = elementId;
 			});

@@ -162,6 +162,18 @@ function handlerProfileFormSubmit(nameInput, jobInput) {
 		});
 }
 
+// function createCard(data) {
+// 	const card = new Card({ data.name, data.link, data._id, data.likes, card.owner._id === userInfo.userId, userInfo.userId }, {
+//         delLikeHandler, putLikeHandler, delCardHandler,
+
+//         openZoomHandler: (name, link) => {
+//             popupImage.open(name, link)
+
+//         }
+//     })
+// 	return card;
+// }
+
 // Добавление карточки из формы
 function handlerCardFormSubmit(titleInput, urlInput) {
 	const submitButton = findSubmit(titleInput);
@@ -169,12 +181,16 @@ function handlerCardFormSubmit(titleInput, urlInput) {
 	api.pushCard(titleInput, urlInput)
 		.then((card) => {
 			const cardElement = new Card(
-				card.name,
-				card.link,
-				card._id,
-				card.likes,
-				card.owner._id === userInfo.userId,
-				card.owner._id
+				{
+					elementName: card.name,
+					elementLink: card.link,
+					cardId: card._id,
+					likes: card.likes,
+					isCardOwner: card.owner._id === userInfo.userId,
+					ownerId: card.owner._id
+				},
+				elementTemplate,
+				popupDelCard
 			);
 			section.addItem(cardElement);
 		})
@@ -252,16 +268,17 @@ Promise.all([userInfo.getUserInfo(), api.getInitialCards()])
 		userInfo.setUserAvatar(user.avatar);
 		cards.forEach((card) => {
 			const cardElement = new Card(
-				card.name,
-				card.link,
-				card._id,
-				card.likes,
-				card.owner._id === userInfo.userId,
-				card.owner._id
+				{
+					elementName: card.name,
+					elementLink: card.link,
+					cardId: card._id,
+					likes: card.likes,
+					isCardOwner: card.owner._id === userInfo.userId,
+					ownerId: card.owner._id
+				},
+				elementTemplate,
+				popupDelCard
 			);
-			// if (card.owner._id === userInfo.userId) {
-			// 	handlerDeleteCard(card._id);
-			// }
 			section.addItem(cardElement);
 		});
 	})
