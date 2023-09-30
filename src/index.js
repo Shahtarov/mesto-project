@@ -7,7 +7,7 @@ import Card from "./components/Card.js";
 import Popup from "./components/Popup.js";
 import PopupWithForm from "./components/PopupWithForm.js";
 import PopupWithImage from "./components/PopupWithImage.js";
-import UserInfo from "./components/UserInf.js";
+import UserInfo from "./components/UserInfo.js";
 
 const api = new Api({
 	baseUrl: "https://nomoreparties.co/v1/plus-cohort-28",
