@@ -13,8 +13,8 @@ const api = new Api({
 	baseUrl: "https://nomoreparties.co/v1/plus-cohort-28",
 	headers: {
 		authorization: "0ad49ebc-d439-4122-a1bb-b1c1bfd063b4",
-		"Content-Type": "application/json",
-	},
+		"Content-Type": "application/json"
+	}
 });
 
 // editProfile();
@@ -42,6 +42,7 @@ const profileInformation = document.querySelector(".profile__information");
 const profileAvatarImg = document.querySelector(".profile__avatar-img");
 const userInfo = new UserInfo(
 	profileName,
+
 	profileInformation
 	// profileAvatarImg
 	// api
@@ -57,6 +58,7 @@ const section = new Section(
 	},
 	cardContainer
 );
+
 
 // Создание popup-ов
 const popupProfileElement = document.querySelector(".popup-profile-edit");
@@ -94,6 +96,7 @@ const formSelectors = {
 	formSelector: ".popup__form",
 	inputSelector: ".popup__information",
 	submitButtonSelector: ".popup__submit",
+
 	inputErrorClass: "popup__information_type_error",
 };
 
@@ -139,6 +142,7 @@ validationAddCard.enableValidation();
 // // Добавление карточки из формы
 // formGallery.addEventListener("submit", validationAddCard);
 
+
 function createCard(data) {
 	const card = new Card(
 		{
@@ -161,6 +165,7 @@ function createCard(data) {
 
 	return card;
 }
+
 
 // Кнопка Сохранение...
 function renderLoading(isLoading, button, buttonText = "Сохранить") {
@@ -219,6 +224,7 @@ function handlerCardFormSubmit(titleInput, urlInput) {
 		// })
 		.then(() => {
 			popupGallery.close();
+
 		})
 		.catch((err) => {
 			console.log(err);
@@ -265,9 +271,11 @@ function handlerSetAvatar(avatarInput) {
 
 buttonProfile.addEventListener("click", () => {
 	popupProfile.open();
+
 	const getUserInfo = userInfo.getUserInfo();
 	nameInput.value = getUserInfo.name;
 	jobInput.value = getUserInfo.about;
+
 });
 
 buttonAddCard.addEventListener("click", () => {
@@ -286,12 +294,13 @@ profileAvatarEdit.addEventListener("click", () => {
 // delCardFormSubmit();
 
 // Получение карточек и профиля
-Promise.all([api.getUserProfile(), api.getInitialCards()])
+Promise.all([userInfo.getUserInfo(), api.getInitialCards()])
 	.then(([user, cards]) => {
 		userInfo.setUserInfo({
 			name: user.name,
 			about: user.about,
 			id: user._id,
+
 		});
 		userInfo.setUserAvatar(user.avatar);
 		section.render(cards);

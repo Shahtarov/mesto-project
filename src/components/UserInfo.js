@@ -26,4 +26,3 @@ export default class UserInfo {
 		this.userAvatar.src = avatar;
 	}
 }
-
