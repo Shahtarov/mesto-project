@@ -42,12 +42,23 @@ const profileInformation = document.querySelector(".profile__information");
 const profileAvatarImg = document.querySelector(".profile__avatar-img");
 const userInfo = new UserInfo(
 	profileName,
-	profileInformation,
-	profileAvatarImg,
-	api
+
+	profileInformation
+	// profileAvatarImg
+	// api
 );
 // let userId;
-const section = new Section({ renderer: render }, cardContainer);
+// const section = new Section({ createCard }, cardContainer);
+const section = new Section(
+	{
+		renderer: (item) => {
+			const card = createCard(item);
+			section.addItem(card);
+		},
+	},
+	cardContainer
+);
+
 
 // Создание popup-ов
 const popupProfileElement = document.querySelector(".popup-profile-edit");
@@ -85,7 +96,8 @@ const formSelectors = {
 	formSelector: ".popup__form",
 	inputSelector: ".popup__information",
 	submitButtonSelector: ".popup__submit",
-	inputErrorClass: "popup__information_type_error"
+
+	inputErrorClass: "popup__information_type_error",
 };
 
 // Создание Popup-ов
@@ -130,6 +142,31 @@ validationAddCard.enableValidation();
 // // Добавление карточки из формы
 // formGallery.addEventListener("submit", validationAddCard);
 
+
+function createCard(data) {
+	const card = new Card(
+		{
+			elementName: data.name,
+			elementLink: data.link,
+			cardId: data._id,
+			likes: data.likes,
+			isCardOwner: data.owner._id === userInfo.userId,
+			ownerId: data.owner._id,
+		},
+		elementTemplate
+		// {
+		// 	delLikeHandler,
+		// 	putLikeHandler,
+		// 	delCardHandler,
+		// }
+	);
+	//   openZoomHandler: (name, link) => {}
+	popupImage.open(data.name, data.link);
+
+	return card;
+}
+
+
 // Кнопка Сохранение...
 function renderLoading(isLoading, button, buttonText = "Сохранить") {
 	let loadingText = "Сохранение...";
@@ -162,41 +199,32 @@ function handlerProfileFormSubmit(nameInput, jobInput) {
 		});
 }
 
-// function createCard(data) {
-// 	const card = new Card({ data.name, data.link, data._id, data.likes, card.owner._id === userInfo.userId, userInfo.userId }, {
-//         delLikeHandler, putLikeHandler, delCardHandler,
-
-//         openZoomHandler: (name, link) => {
-//             popupImage.open(name, link)
-
-//         }
-//     })
-// 	return card;
-// }
-
 // Добавление карточки из формы
 function handlerCardFormSubmit(titleInput, urlInput) {
 	const submitButton = findSubmit(titleInput);
 	renderLoading(true, submitButton);
 	api.pushCard(titleInput, urlInput)
 		.then((card) => {
-			const cardElement = new Card(
-				{
-					elementName: card.name,
-					elementLink: card.link,
-					cardId: card._id,
-					likes: card.likes,
-					isCardOwner: card.owner._id === userInfo.userId,
-					ownerId: card.owner._id
-				},
-				elementTemplate,
-				popupDelCard
-			);
-			section.addItem(cardElement);
+			console.log(card);
+			section.render(card);
 		})
+		// 	const cardElement = new Card(
+		// 		{
+		// 			elementName: card.name,
+		// 			elementLink: card.link,
+		// 			cardId: card._id,
+		// 			likes: card.likes,
+		// 			isCardOwner: card.owner._id === userInfo.userId,
+		// 			ownerId: card.owner._id,
+		// 		},
+		// 		elementTemplate,
+		// 		popupDelCard
+		// 	);
+		// 	section.addItem(cardElement);
+		// })
 		.then(() => {
 			popupGallery.close();
-			e.target.reset();
+
 		})
 		.catch((err) => {
 			console.log(err);
@@ -243,6 +271,11 @@ function handlerSetAvatar(avatarInput) {
 
 buttonProfile.addEventListener("click", () => {
 	popupProfile.open();
+
+	const getUserInfo = userInfo.getUserInfo();
+	nameInput.value = getUserInfo.name;
+	jobInput.value = getUserInfo.about;
+
 });
 
 buttonAddCard.addEventListener("click", () => {
@@ -263,24 +296,14 @@ profileAvatarEdit.addEventListener("click", () => {
 // Получение карточек и профиля
 Promise.all([userInfo.getUserInfo(), api.getInitialCards()])
 	.then(([user, cards]) => {
-		userInfo.fillProfileInputs(nameInput, jobInput, user.name, user.about);
-		userInfo.userId(user._id);
-		userInfo.setUserAvatar(user.avatar);
-		cards.forEach((card) => {
-			const cardElement = new Card(
-				{
-					elementName: card.name,
-					elementLink: card.link,
-					cardId: card._id,
-					likes: card.likes,
-					isCardOwner: card.owner._id === userInfo.userId,
-					ownerId: card.owner._id
-				},
-				elementTemplate,
-				popupDelCard
-			);
-			section.addItem(cardElement);
+		userInfo.setUserInfo({
+			name: user.name,
+			about: user.about,
+			id: user._id,
+
 		});
+		userInfo.setUserAvatar(user.avatar);
+		section.render(cards);
 	})
 	.catch((err) => {
 		console.log(err);
@@ -298,3 +321,4 @@ Promise.all([userInfo.getUserInfo(), api.getInitialCards()])
 // function editProfile() {
 // 	formProfile.addEventListener("submit", handlerProfileFormSubmit);
 // }
+
