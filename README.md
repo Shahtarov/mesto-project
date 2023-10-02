@@ -23,4 +23,6 @@ This project provides the ability to upload and share photos.
 
 [Дмитрий Азаров](https://github.com/azarovdv)
 
+---
+
 👉 [Link to the project](https://shahtarov.github.io/mesto-project/)

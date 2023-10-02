@@ -1,29 +1,18 @@
-import { Popup } from "./Popup.js";
-import api from "../src/index.js";
+import Popup from "./Popup.js";
 
 // Popup с формой
-export class PopupWithForm extends Popup {
-	constructor(popupSelector, apiPush, form) {
-		super(popupSelector);
-		this.apiPush = apiPush;
-		this.form = form;
+export default class PopupWithImage extends Popup {
+	constructor(popupElement) {
+		super(popupElement);
+		this.imageZoom = this.popup.querySelector(".popup__image");
+		this.imageTitle = this.popup.querySelector(".popup__image-title");
 	}
 
-	//Перезаписывает родительский метод close, так как при закрытии попапа форма должна ещё и сбрасываться.
-	closePopup() {
-		super.closePopup();
-		this.form.reset();
-	}
-
-	//Содержит приватный метод _getInputValues, который собирает данные всех полей формы.
-	_getInputValues(form) {
-		form.elements;
-	}
-
-	// Перезаписывает родительский метод setEventListeners. Метод setEventListeners класса PopupWithForm должен не только добавлять обработчик клика иконке закрытия, но и добавлять обработчик сабмита формы.
-	setEventListeners(e) {
-		super.setEventListeners(e);
-		form.addEventListener("submit", this.handler);
+	open(elementName, elementLink) {
+		super.open();
+		this.imageZoom.src = elementLink;
+		this.imageZoom.alt = elementName;
+		this.imageTitle.textContent = elementName;
 	}
 }
 
