@@ -82,18 +82,18 @@ const formSelectors = {
 
 // Создание Popup-ов
 const popupProfile = new PopupWithForm(
-	formSelectors,
 	popupProfileElement,
+	formSelectors,
 	handlerProfileFormSubmit
 );
 const popupAvatar = new PopupWithForm(
-	formSelectors,
 	popupAvatarElement,
+	formSelectors,
 	handlerSetAvatar
 );
 const popupGallery = new PopupWithForm(
-	formSelectors,
 	popupGalleryElement,
+	formSelectors,
 	handlerCardFormSubmit
 );
 const popupImage = new PopupWithImage(popupImageElement);
@@ -127,21 +127,20 @@ function createCard(data) {
 			isCardOwner: data.owner._id === userInfo.userId,
 			ownerId: data.owner._id
 		},
-		elementTemplate
-		// {
-		// 	delLikeHandler,
-		// 	putLikeHandler,
-		// 	delCardHandler,
-		// }
+		elementTemplate,
+		{
+			addLike,
+			delCard,
+			addZoom
+		}
 	);
-	addLike(card);
-	delCard(card);
-
-	card.addEventListener("click", function () {
-		popupImage.open(data.name, data.link);
-	});
-
 	return card;
+}
+
+function addZoom(cardElement, cardName, cardLink) {
+	cardElement.addEventListener("click", function () {
+		popupImage.open(cardName, cardLink);
+	});
 }
 
 // Кнопка Сохранение...
@@ -238,8 +237,9 @@ function handlerSetAvatar(avatarInput) {
 // Добавление лайка
 function addLike(card) {
 	const likeElement = card.querySelector(".element__like");
-	const likesCounter = card.querySelector(".element__likes-counter");
-	likesCounter.textContent = card.likes.length;
+	// const likesCounter = card.querySelector(".element__likes-counter");
+	// console.log(card.likes.length);
+	// likesCounter.textContent = card.likes.length;
 
 	if (card.likes.some((like) => like._id === card.ownerId)) {
 		likeElement.classList.add("element__like_active");
@@ -332,6 +332,7 @@ buttonProfile.addEventListener("click", () => {
 	popupProfile.open();
 
 	const getUserInfo = userInfo.getUserInfo();
+	console.log(getUserInfo);
 	nameInput.value = getUserInfo.name;
 	jobInput.value = getUserInfo.about;
 });

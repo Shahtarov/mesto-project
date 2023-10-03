@@ -2,8 +2,8 @@
 export default class Card {
 	constructor(
 		{ elementName, elementLink, cardId, likes, isCardOwner, ownerId },
-		elementTemplate
-		// popupDelCard,
+		elementTemplate,
+		{ addLike, delCard, addZoom } // popupDelCard,
 	) {
 		this.elementName = elementName;
 		this.elementLink = elementLink;
@@ -12,6 +12,9 @@ export default class Card {
 		this.isCardOwner = isCardOwner;
 		this.owner = ownerId;
 		this.elementTemplate = elementTemplate;
+		this.addLike = addLike;
+		this.delCard = delCard;
+		this.addZoom = addZoom;
 		// this.popupDelCard = popupDelCard;
 		// this.api = api;
 	}
@@ -101,10 +104,12 @@ export default class Card {
 		const elementHeader = cardElement.querySelector(".element__header");
 		elementHeader.textContent = this.elementName;
 
-		// this.#addLike(cardElement);
-		// this.#handleDeleteCard(cardElement);
-		// this.#delCard(cardElement);
-		// this.#delCardFormSubmit(cardElement);
+		const likesCounter = cardElement.querySelector(".element__likes-counter");
+		likesCounter.textContent = this.likes.length;
+
+		this.addLike(this);
+		this.delCard(cardElement, this.cardId);
+		this.addZoom(cardElement, this.elementName, this.elementLink);
 
 		return cardElement;
 	}

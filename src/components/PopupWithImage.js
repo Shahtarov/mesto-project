@@ -5,9 +5,8 @@ export default class PopupWithImage extends Popup {
 	constructor(popupElement) {
 		super(popupElement);
 
-		this.imageZoom = this.popup.querySelector(".popup__image");
-		this.imageTitle = this.popup.querySelector(".popup__image-title");
-
+		this.imageZoom = this.popupElement.querySelector(".popup__image");
+		this.imageTitle = this.popupElement.querySelector(".popup__image-title");
 	}
 
 	open(elementName, elementLink) {
@@ -16,6 +15,5 @@ export default class PopupWithImage extends Popup {
 		this.imageZoom.src = elementLink;
 		this.imageZoom.alt = elementName;
 		this.imageTitle.textContent = elementName;
-
 	}
 }

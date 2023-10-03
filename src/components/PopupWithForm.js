@@ -2,7 +2,7 @@ import Popup from "./Popup.js";
 
 // Popup с формой
 export default class PopupWithForm extends Popup {
-	constructor({ formSelector, inputSelector }, popupElement, handler) {
+	constructor(popupElement, { formSelector, inputSelector }, handler) {
 		super(popupElement);
 		this.form = formSelector;
 		this.input = inputSelector;

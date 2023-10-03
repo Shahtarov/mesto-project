@@ -1,28 +1,28 @@
 // Редактирование профиля
 export default class UserInfo {
-	constructor({ userName, userInformation }) {
-		this.userName = document.querySelector(userName);
-		this.userInformation = document.querySelector(userInformation);
-		this.userAvatar = document.querySelector(".profile__avatar-img");
+	constructor(userName, userInformation) {
+		this.userName = userName.textContent;
+		this.userInformation = userInformation.textContent;
+		this.userAvatar = document.querySelector(".profile__avatar-img").src;
 		this.userId;
 	}
 
 	getUserInfo() {
 		return {
-			name: this.userName.textContent,
-			about: this.userInformation.textContent,
+			name: this.userName,
+			about: this.userInformation,
 			id: this.userId,
-			avatar: this.userAvatar.src,
+			avatar: this.userAvatar
 		};
 	}
 
 	setUserInfo({ name, about, id }) {
-		this.userName.textContent = name;
-		this.userInformation.textContent = about;
+		this.userName = name;
+		this.userInformation = about;
 		this.userId = id;
 	}
 
 	setUserAvatar(avatar) {
-		this.userAvatar.src = avatar;
+		this.userAvatar = avatar;
 	}
 }
