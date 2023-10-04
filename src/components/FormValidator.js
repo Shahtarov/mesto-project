@@ -67,36 +67,7 @@ export default class FormValidator {
 
 	// Включение валидации и перебор форм
 	enableValidation() {
-		this.form.addEventListener("submit", function (e) {
-			e.preventDefault();
-		});
+		this.form.addEventListener("submit", (e) => e.preventDefault());
 		this._setEventListener();
-		// const forms = [...document.querySelectorAll(this.formSelector)];
-		// forms.forEach((form) => {
-		// 	this._setEventListener(form);
-		// });
 	}
 }
-
-// function setEventListener(form, settings) {
-// 	const inputs = [...form.querySelectorAll(settings.inputSelector)];
-// 	const submit = form.querySelector(settings.submitButtonSelector);
-// 	changeSubmitStatus(inputs, submit);
-// 	form.addEventListener('reset', () => {
-// 		submit.setAttribute("disabled", "");
-// 	});
-// 	inputs.forEach((input) => {
-// 		input.addEventListener('input', (e) => {
-// 			showErrorText(e.target, settings);
-// 			changeSubmitStatus(inputs, submit);
-// 		});
-// 	})
-// }
-
-// // Включение валидации и перебор форм
-// export function enableValidation(settings) {
-// 	const forms = [...document.querySelectorAll(settings.formSelector)];
-// 	forms.forEach((form) => {
-// 		setEventListener(form, settings);
-// 	});
-// }
