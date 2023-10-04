@@ -5,12 +5,15 @@ export default class Section {
 		this.container = containerSelector;
 	}
 
-	addItem(item) {
+	addItemPrepend(item) {
 		this.container.prepend(item);
 	}
 
+	addItemAppend(item) {
+		this.container.append(item);
+	}
+
 	render(items) {
-		// console.log(items);
 		items.forEach((item) => {
 			this.renderer(item);
 		});
