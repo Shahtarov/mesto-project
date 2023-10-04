@@ -1,11 +1,9 @@
-import { bind } from "core-js/core/function";
-
 //Работа модальных окон
 export default class Popup {
 	constructor(popupElement) {
 		this.popupElement = popupElement;
 
-		// this.popup = document.querySelector(this.popupElement);
+		//this.popup = document.querySelector(this.popupElement);
 		this._handleEscClose = this._handleEscClose.bind(this);
 		this.setEventListeners = this.setEventListeners.bind(this);
 	}
@@ -54,12 +52,17 @@ export default class Popup {
 	}
 
 	// Закрытие popup-ов кликом на оверлей или крестик
-	setEventListeners(e) {
-		if (
-			e.target.classList.contains("popup_opened") ||
-			e.target.classList.contains("popup__close-icon")
-		) {
-			this.close();
-		}
+	setEventListeners() {
+		this.popupElement.addEventListener("mousedown", (e) => {
+			if (
+				e.target.classList.contains("popup_opened") ||
+				e.target.classList.contains("popup__close-icon")
+			) {
+				this.close();
+			}
+		});
 	}
 }
+
+// бинды раскомментил
+// в setEventListeners добавил слушатель

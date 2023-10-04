@@ -2,10 +2,10 @@ import Popup from "./Popup.js";
 
 // Popup с формой
 export default class PopupWithForm extends Popup {
-	constructor(popupElement, { formSelector, inputSelector }, handler) {
+	constructor(popupElement, handler) {
 		super(popupElement);
-		this.form = formSelector;
-		this.input = inputSelector;
+		this.form = this.popupElement.querySelector(".popup__form");
+		this.input = this.popupElement.querySelector(".popup__information");
 		this.handler = handler;
 	}
 
@@ -18,7 +18,8 @@ export default class PopupWithForm extends Popup {
 	//Содержит приватный метод getInputValues, который собирает данные всех полей формы.
 
 	_getInputValues() {
-		const inputs = [...this.form.querySelectorAll(this.input)].map(
+		console.log(this.input);
+		const inputs = [...this.form.querySelectorAll(this.input.name)].map(
 			(input) => input.value
 		);
 
@@ -28,9 +29,19 @@ export default class PopupWithForm extends Popup {
 	// Перезаписывает родительский метод setEventListeners. Метод setEventListeners класса PopupWithForm должен не только добавлять обработчик клика иконке закрытия, но и добавлять обработчик сабмита формы.
 	setEventListeners() {
 		super.setEventListeners();
-		this.form.addEventListener("submit", function (e) {
+		this.form.addEventListener("submit", (e) => {
 			e.preventDefault();
 			this.handler(this._getInputValues());
 		});
 	}
 }
+
+// ЭТО БЫЛО
+
+// export default class PopupWithForm extends Popup {
+// 	constructor(popupElement, { formSelector, inputSelector }, handler) {
+// 		super(popupElement);
+// 		this.form = formSelector;
+// 		this.input = inputSelector;
+// 		this.handler = handler;
+// 	}

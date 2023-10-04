@@ -3,7 +3,7 @@ export default class Card {
 	constructor(
 		{ elementName, elementLink, cardId, likes, isCardOwner, ownerId },
 		elementTemplate,
-		{ addLike, delCard, addZoom } // popupDelCard,
+		{ addLike, delCard, addZoom }
 	) {
 		this.elementName = elementName;
 		this.elementLink = elementLink;
@@ -107,7 +107,7 @@ export default class Card {
 		const likesCounter = cardElement.querySelector(".element__likes-counter");
 		likesCounter.textContent = this.likes.length;
 
-		this.addLike(this);
+		// this.addLike(this);
 		this.delCard(cardElement, this.cardId);
 		this.addZoom(cardElement, this.elementName, this.elementLink);
 

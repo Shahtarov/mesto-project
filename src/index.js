@@ -27,7 +27,7 @@ const section = new Section(
 	{
 		renderer: (item) => {
 			const card = createCard(item);
-			section.addItem(card);
+			section.addItem(card.getElement());
 		}
 	},
 	cardContainer
@@ -76,24 +76,23 @@ const formSelectors = {
 	formSelector: ".popup__form",
 	inputSelector: ".popup__information",
 	submitButtonSelector: ".popup__submit",
-
 	inputErrorClass: "popup__information_type_error"
 };
 
 // Создание Popup-ов
 const popupProfile = new PopupWithForm(
 	popupProfileElement,
-	formSelectors,
+	// formSelectors,
 	handlerProfileFormSubmit
 );
 const popupAvatar = new PopupWithForm(
 	popupAvatarElement,
-	formSelectors,
+	// formSelectors,
 	handlerSetAvatar
 );
 const popupGallery = new PopupWithForm(
 	popupGalleryElement,
-	formSelectors,
+	// formSelectors,
 	handlerCardFormSubmit
 );
 const popupImage = new PopupWithImage(popupImageElement);
@@ -159,11 +158,10 @@ function findSubmit(input) {
 }
 
 // Отредактировать профиль
-function handlerProfileFormSubmit(nameInput, jobInput) {
+function handlerProfileFormSubmit() {
 	const submitButton = findSubmit(nameInput);
 	renderLoading(true, submitButton);
-	userInfo
-		.setUserInfo(nameInput, jobInput)
+	api.pushUserProfile(nameInput, jobInput)
 		.then(() => {
 			popupProfile.close();
 		})
@@ -176,7 +174,7 @@ function handlerProfileFormSubmit(nameInput, jobInput) {
 }
 
 // Добавление карточки из формы
-function handlerCardFormSubmit(titleInput, urlInput) {
+function handlerCardFormSubmit() {
 	const submitButton = findSubmit(titleInput);
 	renderLoading(true, submitButton);
 	api.pushCard(titleInput, urlInput)
@@ -210,12 +208,10 @@ function handlerCardFormSubmit(titleInput, urlInput) {
 }
 
 //Установка аватара
-function handlerSetAvatar(avatarInput) {
+function handlerSetAvatar() {
 	const submitButton = findSubmit(avatarInput);
-	// const submitButton = e.submitter;
 	renderLoading(true, submitButton);
-	userInfo
-		.setUserAvatar(avatarInput)
+	api.saveUserAvatar(avatarInput)
 		.then(() => {
 			popupAvatar.close();
 		})
@@ -289,7 +285,7 @@ function addLike(card) {
 function handleDeleteCard(card, cardId) {
 	const submitButton = findSubmit(popupDelCard);
 	renderLoading(true, submitButton);
-	api.deleteCard(cardId) //
+	api.deleteCard(cardId)
 		.then(() => {
 			card.remove();
 			popupDelCard.close();
@@ -315,9 +311,8 @@ function delCard(card) {
 	const deleteButton = card.querySelector(".element__delete");
 	if (card.isCardOwner) {
 		deleteButton.addEventListener("click", () => {
-			// В handleDeleteCard нужно как то передавать card id
 			const popupDel = new Popup(
-				formSelectors,
+				// formSelectors,
 				popupDelCard,
 				handleDeleteCard(card, card.cardId)
 			);
@@ -353,13 +348,11 @@ profileAvatarEdit.addEventListener("click", () => {
 // delCardFormSubmit();
 
 // Получение карточек и профиля
-Promise.all([userInfo.getUserInfo(), api.getInitialCards()])
+Promise.all([api.getUserProfile(), api.getInitialCards()])
 	.then(([user, cards]) => {
-		userInfo.setUserInfo({
-			name: user.name,
-			about: user.about,
-			id: user._id
-		});
+		// console.log(user);
+		// console.log(cards);
+		userInfo.setUserInfo(user.name, user.about, user._id);
 		userInfo.setUserAvatar(user.avatar);
 		section.render(cards);
 	})
