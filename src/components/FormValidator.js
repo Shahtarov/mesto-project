@@ -21,7 +21,7 @@ export default class FormValidator {
 		input.classList.remove(this.inputErrorClass);
 	}
 
-	// Проверка валидации всех ворм
+	// Проверка валидации всех форм
 	_isValid() {
 		return this.inputs.every((input) => {
 			return input.validity.valid;
@@ -71,3 +71,4 @@ export default class FormValidator {
 		this._setEventListener();
 	}
 }
+
