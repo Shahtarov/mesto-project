@@ -1,85 +1,91 @@
 // Работа с api
-import {
-	request
-} from "./utils.js";
-
-const config = {
-	baseUrl: 'https://nomoreparties.co/v1/plus-cohort-28',
-	headers: {
-		authorization: '0ad49ebc-d439-4122-a1bb-b1c1bfd063b4',
-		'Content-Type': 'application/json'
+export default class Api {
+	constructor({ baseUrl, headers }) {
+		this.baseUrl = baseUrl;
+		this.headers = headers;
 	}
-}
 
-// Получение пользователя с сервера
-export const getUserProfile = () => {
-	return request(`${config.baseUrl}/users/me`, {
-		headers: config.headers
-	})
-}
+	#checkResponse(res) {
+		if (res.ok) {
+			return res.json();
+		}
+		return Promise.reject(`Ошибка ${res.status}`);
+	}
 
-// Получение карточек
-export const getInitialCards = () => {
-	return request(`${config.baseUrl}/cards`, {
-		headers: config.headers
-	})
-}
+	#request(url, options) {
+		return fetch(url, options).then(this.#checkResponse);
+	}
 
-// Сохранить данные профиля на сервере
-export const pushUserProfile = (userName, userInformation) => {
-	return request(`${config.baseUrl}/users/me`, {
-		method: 'PATCH',
-		headers: config.headers,
-		body: JSON.stringify({
-			name: userName,
-			about: userInformation
-		})
-	})
-}
+	// Получение карточек
+	getInitialCards() {
+		return this.#request(`${this.baseUrl}/cards`, {
+			headers: this.headers
+		});
+	}
 
-// Сохранить карточку на сервере
-export const pushCard = (cardName, cardLink) => {
-	return request(`${config.baseUrl}/cards`, {
-		method: 'POST',
-		headers: config.headers,
-		body: JSON.stringify({
-			name: cardName,
-			link: cardLink
-		})
-	})
-}
+	// Получение пользователя с сервера
+	getUserProfile() {
+		return this.#request(`${this.baseUrl}/users/me`, {
+			headers: this.headers
+		});
+	}
 
-// Удаление карточки
-export const deleteCard = (cardId) => {
-	return request(`${config.baseUrl}/cards/${cardId}`, {
-		method: 'DELETE',
-		headers: config.headers
-	})
-}
+	// Сохранить данные профиля на сервере
+	pushUserProfile(userName, userInformation) {
+		return this.#request(`${this.baseUrl}/users/me`, {
+			method: "PATCH",
+			headers: this.headers,
+			body: JSON.stringify({
+				name: userName,
+				about: userInformation
+			})
+		});
+	}
 
-// Поставить like
-export const setLikeApi = (cardId) => {
-	return request(`${config.baseUrl}/cards/likes/${cardId}`, {
-		method: 'PUT',
-		headers: config.headers,
-	})
-}
+	// Сохранить карточку на сервере
+	pushCard(cardName, cardLink) {
+		return this.#request(`${this.baseUrl}/cards`, {
+			method: "POST",
+			headers: this.headers,
+			body: JSON.stringify({
+				name: cardName,
+				link: cardLink
+			})
+		});
+	}
 
-// Удалить like
-export const delLikeApi = (cardId) => {
-	return request(`${config.baseUrl}/cards/likes/${cardId}`, {
-		method: 'DELETE',
-		headers: config.headers,
-	})
-}
+	// Удаление карточки
+	deleteCard(cardId) {
+		return this.#request(`${this.baseUrl}/cards/${cardId}`, {
+			method: "DELETE",
+			headers: this.headers
+		});
+	}
 
-// Сохранить аватарку
-export const saveUserAvatar = (url) => {
-	return request(`${config.baseUrl}/users/me/avatar`, {
-		method: 'PATCH',
-		headers: config.headers,
-		body: JSON.stringify({
-			avatar: url
-		})
-	})
+	// Поставить like
+	setLikeApi(cardId) {
+		return this.#request(`${this.baseUrl}/cards/likes/${cardId}`, {
+			method: "PUT",
+			headers: this.headers
+		});
+	}
+
+	// Удалить like
+	delLikeApi(cardId) {
+		return this.#request(`${this.baseUrl}/cards/likes/${cardId}`, {
+			method: "DELETE",
+			headers: this.headers
+		});
+	}
+
+	// Сохранить аватарку
+	saveUserAvatar(url) {
+		return this.#request(`${this.baseUrl}/users/me/avatar`, {
+			method: "PATCH",
+			headers: this.headers,
+			body: JSON.stringify({
+				avatar: url
+			})
+		});
+	}
 }
