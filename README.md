@@ -15,7 +15,8 @@ This project provides the ability to upload and share photos.
 -  API;
 -  Form validation;
 -  Object-oriented programming;
--  Webpack.
+-  Webpack;
+-  Figma.
 
 ---
 
