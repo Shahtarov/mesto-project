@@ -33,6 +33,7 @@ import {
 	profileAvatarEdit,
 	formSelectors
 } from "./utils/constants.js";
+import PopupWithDel from "./components/PopupWithDel";
 
 const api = new Api({
 	baseUrl: "https://nomoreparties.co/v1/plus-cohort-28",
@@ -47,13 +48,20 @@ const userInfo = new UserInfo(profileName, profileInformation);
 // Создание Popup-ов
 const popupProfile = new PopupWithForm(
 	popupProfileElement,
+	formSelectors,
 	handlerProfileFormSubmit
 );
-const popupAvatar = new PopupWithForm(popupAvatarElement, handlerSetAvatar);
+const popupAvatar = new PopupWithForm(
+	popupAvatarElement,
+	formSelectors,
+	handlerSetAvatar
+);
 const popupGallery = new PopupWithForm(
 	popupGalleryElement,
+	formSelectors,
 	handlerCardFormSubmit
 );
+const popupDel = new PopupWithDel(popupDelCard, formSelectors, handleDelCard);
 const popupImage = new PopupWithImage(popupImageElement);
 
 // Включение валидации форм
@@ -98,20 +106,8 @@ function createCard(data) {
 			},
 			addZoom,
 			handleDeleteCard: () => {
-				const popupDel = new Popup(popupDelCard);
+				popupDel.setItemForDelete(card);
 				popupDel.open();
-
-				formCardDelete.addEventListener("submit", (e) => {
-					e.preventDefault();
-					api.deleteCard(card.cardId)
-						.then(() => {
-							card.cardElement.remove();
-							popupDel.close();
-						})
-						.catch((err) => {
-							console.log(err);
-						});
-				});
 			}
 		}
 	);
@@ -144,14 +140,16 @@ function renderLoading(isLoading, button, buttonText = "Сохранить") {
 
 // Найти кнопку submit в форме
 function findSubmit(input) {
-	return input.closest("form").querySelector('button[type="submit"]');
+	return input
+		.closest("form")
+		.querySelector(formSelectors.submitButtonSelector);
 }
 
 // Отредактировать профиль
-function handlerProfileFormSubmit() {
+function handlerProfileFormSubmit({ popup__name, popup__job }) {
 	const submitButton = findSubmit(nameInput);
 	renderLoading(true, submitButton);
-	api.pushUserProfile(nameInput.value, jobInput.value)
+	api.pushUserProfile(popup__name, popup__job)
 		.then(({ name, about, _id }) => {
 			userInfo.setUserInfo(name, about, _id);
 			popupProfile.close();
@@ -165,10 +163,10 @@ function handlerProfileFormSubmit() {
 }
 
 // Добавление карточки из формы
-function handlerCardFormSubmit() {
+function handlerCardFormSubmit({ popup__title, popup__url }) {
 	const submitButton = findSubmit(titleInput);
 	renderLoading(true, submitButton);
-	api.pushCard(titleInput.value, urlInput.value)
+	api.pushCard(popup__title, popup__url)
 		.then((card) => {
 			section.addItemPrepend(createCard(card).getElement());
 		})
@@ -184,10 +182,10 @@ function handlerCardFormSubmit() {
 }
 
 //Установка аватара
-function handlerSetAvatar() {
+function handlerSetAvatar({ popup__avatar }) {
 	const submitButton = findSubmit(avatarInput);
 	renderLoading(true, submitButton);
-	api.saveUserAvatar(avatarInput.value)
+	api.saveUserAvatar(popup__avatar)
 		.then(({ avatar }) => {
 			userInfo.setUserAvatar(avatar);
 			popupAvatar.close();
@@ -197,6 +195,17 @@ function handlerSetAvatar() {
 		})
 		.finally(() => {
 			renderLoading(false, submitButton);
+		});
+}
+
+function handleDelCard(card) {
+	api.deleteCard(card.cardId)
+		.then(() => {
+			card.cardElement.remove();
+			popupDel.close();
+		})
+		.catch((err) => {
+			console.log(err);
 		});
 }
 
